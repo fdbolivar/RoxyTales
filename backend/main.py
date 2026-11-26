@@ -10,7 +10,7 @@ import uuid
 import logging
 from contextlib import asynccontextmanager
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 from fastapi import FastAPI, File, UploadFile, HTTPException, BackgroundTasks, Form, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
@@ -165,31 +165,30 @@ async def upload_assets(
     baby_path, baby_hash = None, "default_baby"
     pet_path, pet_hash = None, "default_roxy"
 
-    if baby_photo and baby_photo.filename:
-        if baby_photo.content_type not in ALLOWED_MIME_TYPES:
-            raise HTTPException(400, f"Formato no permitido para foto del bebé. Use JPG, PNG o WEBP.")
-        baby_bytes = await baby_photo.read()
-        if len(baby_bytes) > MAX_FILE_SIZE_BYTES:
-            raise HTTPException(400, "La foto del bebé supera el límite de 5 MB.")
-        baby_hash = _hash_bytes(baby_bytes)
-        ext = ALLOWED_MIME_TYPES[baby_photo.content_type]
-        saved_file = UPLOADS_DIR / f"baby_{baby_hash[:16]}{ext}"
+    def _save_upload_photo(upload_file: UploadFile, raw_bytes: bytes, prefix: str, label_es: str) -> Tuple[str, str]:
+        if len(raw_bytes) > MAX_FILE_SIZE_BYTES:
+            raise HTTPException(400, f"La foto {label_es} supera el límite de 15 MB.")
+        ctype = str(upload_file.content_type or "").lower().strip()
+        ext = ALLOWED_MIME_TYPES.get(ctype)
+        if not ext and upload_file.filename:
+            suffix = Path(upload_file.filename).suffix.lower()
+            if suffix in (".jpg", ".jpeg", ".png", ".webp"):
+                ext = ".jpg" if suffix == ".jpeg" else suffix
+        if not ext:
+            raise HTTPException(400, f"Formato no permitido para foto {label_es}. Use JPG, PNG o WEBP.")
+        digest = _hash_bytes(raw_bytes)
+        saved_file = UPLOADS_DIR / f"{prefix}_{digest[:16]}{ext}"
         with open(saved_file, "wb") as f:
-            f.write(baby_bytes)
-        baby_path = str(saved_file)
+            f.write(raw_bytes)
+        return str(saved_file), digest
+
+    if baby_photo and baby_photo.filename:
+        baby_bytes = await baby_photo.read()
+        baby_path, baby_hash = _save_upload_photo(baby_photo, baby_bytes, "baby", "del bebé")
 
     if pet_photo and pet_photo.filename:
-        if pet_photo.content_type not in ALLOWED_MIME_TYPES:
-            raise HTTPException(400, f"Formato no permitido para foto de la mascota. Use JPG, PNG o WEBP.")
         pet_bytes = await pet_photo.read()
-        if len(pet_bytes) > MAX_FILE_SIZE_BYTES:
-            raise HTTPException(400, "La foto de la mascota supera el límite de 5 MB.")
-        pet_hash = _hash_bytes(pet_bytes)
-        ext = ALLOWED_MIME_TYPES[pet_photo.content_type]
-        saved_file = UPLOADS_DIR / f"pet_{pet_hash[:16]}{ext}"
-        with open(saved_file, "wb") as f:
-            f.write(pet_bytes)
-        pet_path = str(saved_file)
+        pet_path, pet_hash = _save_upload_photo(pet_photo, pet_bytes, "pet", "de la mascota")
     else:
         # Default official Roxy Character reference
         if DEFAULT_ROXY_IMAGE.exists():

@@ -68,7 +68,7 @@ LAYOUTS_24P = {p: STORY_LAYOUTS_24P_DIR / f"page_{p:02d}.jpg" for p in range(1, 
 STORY_BLUEPRINT_24P_PATH = BASE_DIR / "backend" / "story_blueprint_24p.json"
 
 # Upload constraints
-MAX_FILE_SIZE_BYTES = 5 * 1024 * 1024  # 5 MB
+MAX_FILE_SIZE_BYTES = 15 * 1024 * 1024  # 15 MB
 ALLOWED_MIME_TYPES = {
     "image/jpeg": ".jpg",
     "image/jpg": ".jpg",

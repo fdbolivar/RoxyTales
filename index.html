@@ -249,17 +249,17 @@
               
               <div
                 id="babyPhotoDropArea"
-                class="photo-upload-card text-center cursor-pointer border-2 border-dashed border-[#DCD3C7] hover:border-[#991B1B] rounded-2xl p-5 bg-[#FAF8F5]/80 hover:bg-white transition"
+                class="relative overflow-hidden photo-upload-card text-center cursor-pointer border-2 border-dashed border-[#DCD3C7] hover:border-[#991B1B] rounded-2xl p-5 bg-[#FAF8F5]/80 hover:bg-white transition"
               >
-                <input id="babyPhotoFileInput" type="file" accept="image/jpeg,image/png,image/webp" class="hidden" />
+                <input id="babyPhotoFileInput" type="file" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
                 <div class="w-12 h-12 rounded-full bg-white border border-[#DCD3C7] mx-auto flex items-center justify-center text-xl shadow-xs">
                   📸
                 </div>
                 <p class="mt-2 text-xs font-bold text-[#1A1715]" data-i18n="babyPhotoDropBoxText">
-                  Haz clic o arrastra la foto aquí
+                  Toca o arrastra la foto aquí
                 </p>
                 <p class="text-[11px] text-[#786F66] mt-0.5" data-i18n="photoDropHintShort">
-                  JPG, PNG o WEBP · Máx. 5 MB
+                  Foto de tu galería (JPG, PNG, WEBP, HEIC · optimización automática)
                 </p>
               </div>
 
@@ -377,17 +377,17 @@
               
               <div
                 id="petPhotoDropArea"
-                class="photo-upload-card text-center cursor-pointer border-2 border-dashed border-[#DCD3C7] hover:border-[#991B1B] rounded-2xl p-5 bg-[#FAF8F5]/80 hover:bg-white transition"
+                class="relative overflow-hidden photo-upload-card text-center cursor-pointer border-2 border-dashed border-[#DCD3C7] hover:border-[#991B1B] rounded-2xl p-5 bg-[#FAF8F5]/80 hover:bg-white transition"
               >
-                <input id="petPhotoFileInput" type="file" accept="image/jpeg,image/png,image/webp" class="hidden" />
+                <input id="petPhotoFileInput" type="file" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
                 <div class="w-12 h-12 rounded-full bg-white border border-[#DCD3C7] mx-auto flex items-center justify-center text-xl shadow-xs">
                   🐾
                 </div>
                 <p class="mt-2 text-xs font-bold text-[#1A1715]" data-i18n="petPhotoDropBoxText">
-                  Haz clic o arrastra la foto aquí
+                  Toca o arrastra la foto aquí
                 </p>
                 <p class="text-[11px] text-[#786F66] mt-0.5" data-i18n="photoDropHintShort">
-                  JPG, PNG o WEBP · Máx. 5 MB
+                  Foto de tu galería (JPG, PNG, WEBP, HEIC · optimización automática)
                 </p>
               </div>
 
@@ -1952,8 +1952,8 @@
   <!-- Contenedor invisible para impresión PDF -->
   <div id="printableBookContainer" aria-hidden="true"></div>
 
-  <!-- Notificaciones Toast -->
-  <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm"></div>
+  <!-- Notificaciones Toast (arriba en móvil para no quedar oculto bajo la barra flotante) -->
+  <div id="toastContainer" class="fixed top-16 sm:top-20 right-3 left-3 sm:left-auto z-[70] flex flex-col gap-2 sm:max-w-sm pointer-events-none"></div>
 
   <!-- Controlador Universal -->
   <script src="./roxytales.bundle.js"></script>

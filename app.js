@@ -840,6 +840,59 @@ class RoxyTalesApp {
     }
   }
 
+  async _normalizeMobileImageFile(file) {
+    // Resize & compress large phone photos (e.g. 8–15 MB portrait/HEIC) to <= 1600px JPEG cleanly
+    const targetMaxDim = 1600;
+    const drawToJpeg = (source, width, height) => {
+      const scale = Math.min(1, targetMaxDim / Math.max(width || 1, height || 1));
+      const w = Math.max(1, Math.round(width * scale));
+      const h = Math.max(1, Math.round(height * scale));
+      const canvas = document.createElement("canvas");
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(source, 0, 0, w, h);
+      const dataUrl = canvas.toDataURL("image/jpeg", 0.88);
+      return new Promise((resolve) => {
+        canvas.toBlob(
+          (blob) => {
+            const safeBase = (file.name || "photo").replace(/\.[^.]+$/, "");
+            const normalizedFile = blob
+              ? new File([blob], `${safeBase}.jpg`, { type: "image/jpeg" })
+              : file;
+            resolve({ dataUrl, file: normalizedFile, fileName: `${safeBase}.jpg` });
+          },
+          "image/jpeg",
+          0.88
+        );
+      });
+    };
+
+    if (typeof createImageBitmap === "function") {
+      try {
+        const bitmap = await createImageBitmap(file, { imageOrientation: "from-image" });
+        const out = await drawToJpeg(bitmap, bitmap.width, bitmap.height);
+        if (typeof bitmap.close === "function") bitmap.close();
+        return out;
+      } catch (_) {
+        // Fallback to HTMLImageElement below
+      }
+    }
+
+    const objUrl = URL.createObjectURL(file);
+    try {
+      const img = await new Promise((resolve, reject) => {
+        const el = new Image();
+        el.onload = () => resolve(el);
+        el.onerror = () => reject(new Error("Image decode failed"));
+        el.src = objUrl;
+      });
+      return await drawToJpeg(img, img.naturalWidth || img.width, img.naturalHeight || img.height);
+    } finally {
+      URL.revokeObjectURL(objUrl);
+    }
+  }
+
   _setupPhotoDropzone({ dropzoneId, fileInputId, removeBtnId, onLoadSuccess, onRemove }) {
     const dropzone =
       document.getElementById(dropzoneId) ||
@@ -851,37 +904,82 @@ class RoxyTalesApp {
       document.getElementById(fileInputId.replace("FileInput", "Input"));
     const removeBtn = document.getElementById(removeBtnId);
 
-    const processFile = (file) => {
+    const setDropzoneBusy = (busy) => {
+      if (!dropzone) return;
+      dropzone.classList.toggle("opacity-60", busy);
+    };
+
+    const processFile = async (file) => {
       if (!file) return;
-      const validTypes = ["image/jpeg", "image/png", "image/webp"];
-      if (!validTypes.includes(file.type)) {
+      const lowerName = String(file.name || "").toLowerCase();
+      const mime = String(file.type || "").toLowerCase();
+      const hasImageExt = /\.(jpe?g|png|webp|heic|heif|bmp|gif)$/i.test(lowerName);
+      const isImageMime = mime.startsWith("image/") || mime === "";
+      if (!isImageMime && !hasImageExt) {
         this.showToast(
           this.state.language === "en"
-            ? "Unsupported format. Please upload JPG, PNG, or WEBP."
-            : "Formato no válido. Usa imágenes JPG, PNG o WEBP.",
-          "error"
-        );
-        return;
-      }
-      if (file.size > APP_CONFIG.maxPhotoSizeBytes) {
-        this.showToast(
-          this.state.language === "en"
-            ? "File exceeds 5 MB limit."
-            : "La imagen supera el límite máximo de 5 MB.",
+            ? "Unsupported format. Please choose an image from your gallery."
+            : "Formato no válido. Elige una imagen de tu galería.",
           "error"
         );
         return;
       }
 
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        onLoadSuccess(ev.target.result, file.name, file);
-      };
-      reader.readAsDataURL(file);
+      const maxRawBytes = APP_CONFIG.maxPhotoSizeBytes || 25 * 1024 * 1024;
+      if (file.size > maxRawBytes) {
+        this.showToast(
+          this.state.language === "en"
+            ? "Photo exceeds 25 MB limit. Please pick a smaller image."
+            : "La foto supera el límite máximo de 25 MB.",
+          "error"
+        );
+        return;
+      }
+
+      setDropzoneBusy(true);
+      try {
+        const normalized = await this._normalizeMobileImageFile(file);
+        onLoadSuccess(normalized.dataUrl, normalized.fileName, normalized.file);
+      } catch (normErr) {
+        // Fallback directly via FileReader if image is standard JPG/PNG/WEBP under 12 MB
+        const readerSafe = /\.(jpe?g|png|webp)$/i.test(lowerName) || ["image/jpeg", "image/png", "image/webp"].includes(mime);
+        if (readerSafe && file.size <= 12 * 1024 * 1024) {
+          const reader = new FileReader();
+          reader.onload = (ev) => onLoadSuccess(ev.target.result, file.name || "photo.jpg", file);
+          reader.onerror = () => {
+            this.showToast(
+              this.state.language === "en"
+                ? "Could not read this photo. Try taking a screenshot or choosing a JPG/PNG."
+                : "No se pudo leer esta foto. Intenta con otra imagen JPG/PNG de tu galería.",
+              "error"
+            );
+          };
+          reader.readAsDataURL(file);
+        } else {
+          console.warn("[RoxyTales Upload] Mobile decode error:", normErr);
+          this.showToast(
+            this.state.language === "en"
+              ? "Format not supported directly by this browser. Try JPG, PNG, or screenshot."
+              : "Este formato HEIC no pudo procesarse en tu navegador. Intenta guardarla como JPG o captura de pantalla.",
+            "error"
+          );
+        }
+      } finally {
+        setDropzoneBusy(false);
+        if (fileInput) {
+          try {
+            fileInput.value = "";
+          } catch (_) {}
+        }
+      }
     };
 
     if (dropzone && fileInput) {
-      dropzone.addEventListener("click", () => fileInput.click());
+      dropzone.addEventListener("click", (e) => {
+        if (e.target !== fileInput) {
+          fileInput.click();
+        }
+      });
       dropzone.addEventListener("dragover", (e) => {
         e.preventDefault();
         dropzone.classList.add("border-rose-500", "bg-rose-50/50");
@@ -3660,7 +3758,7 @@ class RoxyTalesApp {
     };
 
     const toast = document.createElement("div");
-    toast.className = `px-4 py-3 rounded-xl shadow-xl border-l-4 text-xs sm:text-sm font-semibold flex items-center gap-2.5 transition-all duration-300 ${
+    toast.className = `pointer-events-auto px-4 py-3 rounded-xl shadow-xl border-l-4 text-xs sm:text-sm font-semibold flex items-center gap-2.5 transition-all duration-300 ${
       colors[type] || colors.info
     }`;
     toast.textContent = message;
