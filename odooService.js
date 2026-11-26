@@ -18,8 +18,17 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 class OdooService {
   _getApiBaseUrl() {
-    if (typeof window !== "undefined" && window.ROXY_API_URL) {
-      return String(window.ROXY_API_URL).replace(/\/+$/, "");
+    if (typeof window !== "undefined") {
+      if (window.ROXY_API_URL) {
+        return String(window.ROXY_API_URL).replace(/\/+$/, "");
+      }
+      const { hostname, port, origin } = window.location || {};
+      if ((hostname === "127.0.0.1" || hostname === "localhost") && port === "4173") {
+        return "http://127.0.0.1:8000";
+      }
+      if (origin && origin !== "null") {
+        return origin.replace(/\/+$/, "");
+      }
     }
     return "http://127.0.0.1:8000";
   }

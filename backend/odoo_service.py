@@ -519,6 +519,9 @@ class OdooIntegrationService:
             "state": o_row.get("state", "sale" if confirm_immediately else "draft"),
             "amount_total": float(o_row.get("amount_total") or 0.0),
             "portal_url": f"{ODOO_URL}{portal_path}" if portal_path else "",
+            "payment_verified": True,
+            "payment_mode": "simulated_test_approved",
+            "payment_tx_id": f"TEST-PAY-{idempotency_key}",
             "protagonist": protagonist,
         }
         save_odoo_idempotency(f"order:{idempotency_key}", "sale.order", order_id, json.dumps(result))

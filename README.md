@@ -55,22 +55,18 @@ Aplicación full-stack (**HTML/JS + FastAPI + ReportLab 300 DPI**) para la perso
 
 ---
 
-## 3. Cómo arrancar la aplicación (Backend + Frontend)
+## 3. Cómo arrancar la aplicación (Origen único o dos terminales)
 
-Abre **dos terminales** en la raíz del proyecto:
-
-### Terminal 1 — Backend FastAPI (`http://127.0.0.1:8000`)
+### Opción rápida (Recomendada — Un solo servidor en `http://127.0.0.1:8000`)
+El backend FastAPI sirve tanto la API como `index.html` y los activos públicos estáticos de forma segura:
 ```bash
 python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000
 ```
-Verificación rápida de salud:
-- Abrir `http://127.0.0.1:8000/api/health` (debe responder `"status": "healthy"`, `"test_mode": true`, `"stripe_enabled": false`, `"gelato_enabled": false`).
+Abre en tu navegador: **`http://127.0.0.1:8000/`** (o verifica la salud en `http://127.0.0.1:8000/api/health`).
 
-### Terminal 2 — Frontend estático (`http://127.0.0.1:4173`)
-```bash
-python -m http.server 4173
-```
-Abre en tu navegador: **`http://127.0.0.1:4173/index.html`**
+### Opción separada (Backend + Frontend en puertos distintos)
+- **Terminal 1 (Backend):** `python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000`
+- **Terminal 2 (Frontend):** `python -m http.server 4173` → **`http://127.0.0.1:4173/index.html`**
 
 ### Si modificas archivos `.js` fuente (`app.js`, `config.js`, `odooService.js`, `admin.js`, `adminService.js`)
 Regenera el bundle universal y valida los IDs del DOM antes de probar o hacer commit:

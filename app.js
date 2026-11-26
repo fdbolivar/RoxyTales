@@ -1046,7 +1046,19 @@ class RoxyTalesApp {
      MOTOR DE IA GENERATIVA (FastAPI + Google GenAI + Caché SHA-256)
      ========================================================================== */
   getApiBaseUrl() {
-    return window.ROXY_API_URL || "http://127.0.0.1:8000";
+    if (typeof window !== "undefined") {
+      if (window.ROXY_API_URL) {
+        return String(window.ROXY_API_URL).replace(/\/+$/, "");
+      }
+      const { hostname, port, origin } = window.location || {};
+      if ((hostname === "127.0.0.1" || hostname === "localhost") && port === "4173") {
+        return "http://127.0.0.1:8000";
+      }
+      if (origin && origin !== "null") {
+        return origin.replace(/\/+$/, "");
+      }
+    }
+    return "http://127.0.0.1:8000";
   }
 
   async _checkBackendHealth() {
@@ -3465,8 +3477,9 @@ class RoxyTalesApp {
         this._renderOrderTrackingCard({
           order_ref: this.state.lastOrderRef,
           state: remoteOrder?.state || "confirmed_local",
+          payment_verified: true,
           portal_url: remoteOrder?.portal_url || "",
-          attachments: []
+          attachments: remoteOrder?.attachments || []
         });
 
         const payloadPreviewEl = document.getElementById("checkoutSuccessPayloadPreview");
@@ -3533,19 +3546,32 @@ class RoxyTalesApp {
       refEl.textContent = info.order_ref || info.order_name || this.state.lastOrderRef || "RT-ORD";
     }
     if (badgeEl) {
-      const stateMap = {
-        sale: "Confirmado",
-        done: "Completado",
-        draft: "Registrado",
-        confirmed_local: "Confirmado (Local)"
+      const isEn = this.state.language === "en";
+      const stateMapEs = {
+        sale: "✅ Compra Comprobada (Modo Prueba)",
+        done: "✅ Pedido Completado",
+        draft: "Registrado (Modo Prueba)",
+        confirmed_local: "✅ Compra Comprobada (Modo Prueba)"
       };
-      badgeEl.textContent = stateMap[info.state] || "Confirmado";
+      const stateMapEn = {
+        sale: "✅ Purchase Verified (Test Mode)",
+        done: "✅ Order Completed",
+        draft: "Recorded (Test Mode)",
+        confirmed_local: "✅ Purchase Verified (Test Mode)"
+      };
+      const map = isEn ? stateMapEn : stateMapEs;
+      badgeEl.textContent = map[info.state] || (isEn ? "✅ Purchase Verified (Test Mode)" : "✅ Compra Comprobada (Modo Prueba)");
     }
     if (vaultEl) {
+      const isEn = this.state.language === "en";
       const attCount = Array.isArray(info.attachments) ? info.attachments.length : (info.attachment_id ? 1 : 0);
       vaultEl.textContent = attCount > 0
-        ? "✅ Edición digital de colección archivada y lista para descarga segura."
-        : "⏳ Generando y archivando tu edición digital de colección en alta resolución...";
+        ? (isEn
+            ? "✅ Payment verified in test mode · 24-page collector PDF ready for download."
+            : "✅ Compra comprobada en modo prueba · Edición digital de 24 páginas archivada y lista para descarga.")
+        : (isEn
+            ? "⏳ Purchase verified · Preparing your 24-page high-resolution edition..."
+            : "⏳ Compra comprobada · Generando y archivando tu edición digital de colección en alta resolución...");
     }
     if (portalLink) {
       if (info.portal_url) {

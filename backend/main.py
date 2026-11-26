@@ -13,12 +13,16 @@ from pathlib import Path
 from typing import Dict, List, Optional
 from fastapi import FastAPI, File, UploadFile, HTTPException, BackgroundTasks, Form, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from backend.config import (
+    BASE_DIR,
     UPLOADS_DIR,
     STORAGE_DIR,
+    RENDERS_DIR,
+    PDFS_DIR,
     MAX_FILE_SIZE_BYTES,
     ALLOWED_MIME_TYPES,
     DEFAULT_ROXY_IMAGE,
@@ -41,6 +45,8 @@ from backend.db import (
     update_pdf_job,
     get_pdf_job,
     check_and_record_preview_quota,
+    get_odoo_idempotency,
+    save_odoo_idempotency,
 )
 from backend.image_engine import image_engine, compute_cache_key
 from backend.model_router import ModelRouter
@@ -75,8 +81,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Mount local storage for rendered assets
-app.mount("/storage", StaticFiles(directory=str(STORAGE_DIR)), name="storage")
+# Mount ONLY public render & PDF outputs (never expose SQLite DB or raw user uploads)
+app.mount("/storage/renders", StaticFiles(directory=str(RENDERS_DIR)), name="storage_renders")
+app.mount("/storage/pdfs", StaticFiles(directory=str(PDFS_DIR)), name="storage_pdfs")
+if (BASE_DIR / "assets").exists():
+    app.mount("/assets", StaticFiles(directory=str(BASE_DIR / "assets")), name="assets")
+if (BASE_DIR / "PublishingImprint").exists():
+    app.mount("/PublishingImprint", StaticFiles(directory=str(BASE_DIR / "PublishingImprint")), name="imprint")
 
 
 class RenderRequest(BaseModel):
@@ -388,6 +399,34 @@ def _run_pdf_generation_job(job_id: str, req: PDFGenerateRequest):
             except Exception as vault_exc:
                 logger.warning(f"Odoo PDF vault sync failed for order {req.order_ref}: {vault_exc}")
                 result["prepress_report"]["odoo_vault_error"] = str(vault_exc)
+        elif req.order_ref and TEST_MODE:
+            sim_row = get_odoo_idempotency(f"sim_order:{req.order_ref}")
+            sim_data = json.loads(sim_row["response_json"]) if sim_row else {
+                "status": "simulated_test_mode",
+                "test_mode": True,
+                "order_ref": req.order_ref,
+                "state": "confirmed_local",
+                "payment_verified": True,
+                "payment_mode": "simulated_test_approved",
+                "attachments": [],
+                "pickings": [],
+            }
+            att_entry = {
+                "id": 1,
+                "name": Path(result["interior_path"]).name,
+                "download_url": result["interior_pdf_url"],
+            }
+            sim_data["attachments"] = [att_entry]
+            sim_data["digital_delivery_sent"] = True
+            save_odoo_idempotency(f"sim_order:{req.order_ref}", "simulated_order", None, json.dumps(sim_data))
+            result["prepress_report"]["odoo_vault_sync"] = {
+                "status": "attached",
+                "order_ref": req.order_ref,
+                "attachment_id": 1,
+                "download_url": result["interior_pdf_url"],
+                "payment_verified": True,
+                "attachments": [att_entry],
+            }
 
         update_pdf_job(
             job_id,
@@ -577,16 +616,27 @@ def odoo_waitlist(req: OdooWaitlistRequest):
 def odoo_create_sale_order(req: OdooSaleOrderRequest):
     """Creates an independent `sale.order` per personalized book under shared buyer `res.partner`."""
     if not odoo_client.is_configured and TEST_MODE:
-        return {
+        sim_key = f"sim_order:{req.idempotency_key}"
+        cached = get_odoo_idempotency(sim_key)
+        if cached:
+            return json.loads(cached["response_json"])
+        sim_res = {
             "status": "simulated_test_mode",
             "test_mode": True,
             "order_id": None,
             "order_name": req.idempotency_key,
             "order_ref": req.idempotency_key,
             "state": "confirmed_local",
+            "payment_verified": True,
+            "payment_mode": "simulated_test_approved",
+            "payment_tx_id": f"TEST-PAY-{req.idempotency_key}",
             "portal_url": "",
+            "attachments": [],
+            "pickings": [],
             "protagonist": req.protagonist.model_dump(),
         }
+        save_odoo_idempotency(sim_key, "simulated_order", None, json.dumps(sim_res))
+        return sim_res
     try:
         return odoo_service.create_sale_order(
             req.model_dump(),
@@ -600,12 +650,29 @@ def odoo_create_sale_order(req: OdooSaleOrderRequest):
 def odoo_attach_pdf(order_ref: str, req: OdooAttachPdfRequest):
     """Uploads high-res PDF into Odoo `ir.attachment` + Documents vault and triggers digital email delivery."""
     if not odoo_client.is_configured and TEST_MODE:
+        sim_key = f"sim_order:{order_ref}"
+        cached = get_odoo_idempotency(sim_key)
+        sim_data = json.loads(cached["response_json"]) if cached else {
+            "status": "simulated_test_mode",
+            "test_mode": True,
+            "order_ref": order_ref,
+            "state": "confirmed_local",
+            "payment_verified": True,
+            "attachments": [],
+        }
+        dl_url = req.pdf_path_or_url or ""
+        att_entry = {"id": 1, "name": req.filename or f"{order_ref}.pdf", "download_url": dl_url}
+        sim_data["attachments"] = [att_entry]
+        sim_data["digital_delivery_sent"] = True
+        save_odoo_idempotency(sim_key, "simulated_order", None, json.dumps(sim_data))
         return {
             "status": "simulated_test_mode",
             "test_mode": True,
             "order_ref": order_ref,
-            "attachment_id": None,
-            "digital_delivery_triggered": False,
+            "attachment_id": 1,
+            "download_url": dl_url,
+            "attachments": [att_entry],
+            "digital_delivery_triggered": True,
         }
     try:
         return odoo_service.attach_pdf_to_order(
@@ -636,6 +703,7 @@ def odoo_fulfill_order(order_ref: str, req: OdooFulfillRequest):
             "test_mode": True,
             "order_ref": order_ref,
             "state": "confirmed_local",
+            "payment_verified": True,
             "attachments": [],
             "pickings": [],
         }
@@ -655,11 +723,15 @@ def odoo_fulfill_order(order_ref: str, req: OdooFulfillRequest):
 def odoo_get_order(order_ref: str):
     """Reverse lookup from Odoo for order status, portal link, invoices, PDFs, and delivery status."""
     if not odoo_client.is_configured and TEST_MODE:
+        cached = get_odoo_idempotency(f"sim_order:{order_ref}")
+        if cached:
+            return json.loads(cached["response_json"])
         return {
             "status": "simulated_test_mode",
             "test_mode": True,
             "order_ref": order_ref,
             "state": "confirmed_local",
+            "payment_verified": True,
             "portal_url": "",
             "attachments": [],
             "pickings": [],
@@ -685,3 +757,38 @@ def odoo_get_customer_orders(email: str):
         return odoo_service.get_customer_orders(email)
     except Exception as exc:
         _raise_odoo_http_error(exc)
+
+
+# ==============================================================================
+# SAFE SINGLE-ORIGIN FRONTEND SERVING (Strictly allowlisted public web assets)
+# ==============================================================================
+
+PUBLIC_WEB_FILES = {
+    "index.html",
+    "styles.css",
+    "roxytales.bundle.js",
+    "config.js",
+    "app.js",
+    "odooService.js",
+    "admin.js",
+    "adminService.js",
+    "RoxyCharacter.jpg",
+    "RoxyCharacterSheet.jpg",
+    "Example01.jpg",
+    "Example02.jpg",
+}
+
+
+@app.get("/", include_in_schema=False)
+def serve_frontend_root():
+    return FileResponse(BASE_DIR / "index.html")
+
+
+@app.get("/{filename}", include_in_schema=False)
+def serve_public_web_file(filename: str):
+    if filename not in PUBLIC_WEB_FILES:
+        raise HTTPException(status_code=404, detail="Not found")
+    target = BASE_DIR / filename
+    if not target.exists() or not target.is_file():
+        raise HTTPException(status_code=404, detail="Not found")
+    return FileResponse(target)
