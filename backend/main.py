@@ -88,6 +88,10 @@ if (BASE_DIR / "assets").exists():
     app.mount("/assets", StaticFiles(directory=str(BASE_DIR / "assets")), name="assets")
 if (BASE_DIR / "PublishingImprint").exists():
     app.mount("/PublishingImprint", StaticFiles(directory=str(BASE_DIR / "PublishingImprint")), name="imprint")
+if (BASE_DIR / "Roxy").exists():
+    app.mount("/Roxy", StaticFiles(directory=str(BASE_DIR / "Roxy")), name="roxy_samples")
+if (BASE_DIR / "Babies").exists():
+    app.mount("/Babies", StaticFiles(directory=str(BASE_DIR / "Babies")), name="baby_samples")
 
 
 class RenderRequest(BaseModel):
