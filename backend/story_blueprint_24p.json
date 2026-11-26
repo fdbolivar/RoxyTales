@@ -1,0 +1,546 @@
+[
+  {
+    "pageNumber": 1,
+    "id": "cover",
+    "layoutReservePercent": 35,
+    "isDarkPage": false,
+    "isScenePage": false,
+    "isCapsulePage": false,
+    "isDedicationPage": false,
+    "textTemplateEs": "¡Mi Primera Navidad con {childName} y {petName}!",
+    "textTemplateEn": "My First Christmas with {childName} and {petName}!",
+    "subtextEs": "",
+    "subtextEn": "",
+    "ageVariants": null
+  },
+  {
+    "pageNumber": 2,
+    "id": "title_opening",
+    "layoutReservePercent": 35,
+    "isDarkPage": false,
+    "isScenePage": false,
+    "isCapsulePage": false,
+    "isDedicationPage": false,
+    "textTemplateEs": "Edición de Colección para {childName} y {petName} · {customYear}",
+    "textTemplateEn": "Collector's Edition for {childName} & {petName} · {customYear}",
+    "subtextEs": "",
+    "subtextEn": "",
+    "ageVariants": null
+  },
+  {
+    "pageNumber": 3,
+    "id": "shiny_ornament",
+    "layoutReservePercent": 30,
+    "isDarkPage": false,
+    "isScenePage": true,
+    "isCapsulePage": false,
+    "isDedicationPage": false,
+    "textTemplateEs": "¡Mira, {childName}! ¡Brilla, brilla la esfera dorada!",
+    "textTemplateEn": "Look, {childName}! Shine, shine goes the golden bauble!",
+    "subtextEs": "",
+    "subtextEn": "",
+    "ageVariants": {
+      "0_6": {
+        "es": "Mira qué luz tan suave brilla para ti, {childName}.",
+        "en": "Look at the gentle light shining just for you, {childName}."
+      },
+      "7_12": {
+        "es": "¡Mira, {childName}! ¡Brilla, brilla la esfera dorada!",
+        "en": "Look, {childName}! Shine, shine goes the golden bauble!"
+      },
+      "13_24": {
+        "es": "¡Señala la estrella, {childName}! ¡Mira qué alto brilla!",
+        "en": "Point to the star, {childName}! Look how high it shines!"
+      }
+    }
+  },
+  {
+    "pageNumber": 4,
+    "id": "warm_light_support",
+    "layoutReservePercent": 30,
+    "isDarkPage": false,
+    "isScenePage": false,
+    "isCapsulePage": false,
+    "isDedicationPage": false,
+    "textTemplateEs": "Un destello mágico que ilumina tus ojos curiosos.",
+    "textTemplateEn": "A magical sparkle lighting up your curious eyes.",
+    "subtextEs": "",
+    "subtextEn": "",
+    "ageVariants": {
+      "0_6": {
+        "es": "Escucha nuestra voz... estás seguro y muy amado.",
+        "en": "Listen to our voice... you are safe and deeply loved."
+      },
+      "7_12": {
+        "es": "Un destello mágico que ilumina tus ojos curiosos.",
+        "en": "A magical sparkle lighting up your curious eyes."
+      },
+      "13_24": {
+        "es": "«¡Luz, luz!», dices con tu voz llena de emoción.",
+        "en": "“Light, light!” you say with a voice full of wonder."
+      }
+    }
+  },
+  {
+    "pageNumber": 5,
+    "id": "joyful_pet",
+    "layoutReservePercent": 30,
+    "isDarkPage": false,
+    "isScenePage": true,
+    "isCapsulePage": false,
+    "isDedicationPage": false,
+    "textTemplateEs": "«{petSound}», dice {petName} moviendo su colita feliz.",
+    "textTemplateEn": "“{petSound}”, says {petName} wagging happily.",
+    "subtextEs": "",
+    "subtextEn": "",
+    "ageVariants": {
+      "0_6": {
+        "es": "{petSound}, susurra {petName} muy cerquita de ti.",
+        "en": "{petSound}, whispers {petName} right beside you."
+      },
+      "7_12": {
+        "es": "«{petSound}», dice {petName} moviendo su colita feliz.",
+        "en": "“{petSound}”, says {petName} wagging happily."
+      },
+      "13_24": {
+        "es": "«{petSound}», ladra {petName} invitándote a jugar.",
+        "en": "“{petSound}”, calls {petName}, inviting you to play!"
+      }
+    }
+  },
+  {
+    "pageNumber": 6,
+    "id": "rhythm_and_echo",
+    "layoutReservePercent": 30,
+    "isDarkPage": false,
+    "isScenePage": false,
+    "isCapsulePage": false,
+    "isDedicationPage": false,
+    "textTemplateEs": "¡Toca el cascabel! ¡Tilín, tilín suena la Navidad!",
+    "textTemplateEn": "Tap the bell! Jingle, jingle sounds Christmas!",
+    "subtextEs": "",
+    "subtextEn": "",
+    "ageVariants": {
+      "0_6": {
+        "es": "Un sonido dulce que hace florecer tu primera sonrisa.",
+        "en": "A sweet sound that brings out your very first smile."
+      },
+      "7_12": {
+        "es": "¡Toca el cascabel! ¡Tilín, tilín suena la Navidad!",
+        "en": "Tap the bell! Jingle, jingle sounds Christmas!"
+      },
+      "13_24": {
+        "es": "¿Cómo hace {petName}? ¡Lo repites con una gran sonrisa!",
+        "en": "What does {petName} say? You repeat it with a big smile!"
+      }
+    }
+  },
+  {
+    "pageNumber": 7,
+    "id": "tactile_pine",
+    "layoutReservePercent": 25,
+    "isDarkPage": false,
+    "isScenePage": true,
+    "isCapsulePage": false,
+    "isDedicationPage": false,
+    "textTemplateEs": "Suave, suave... tus deditos exploran el pino nevado.",
+    "textTemplateEn": "Soft, soft... little fingers explore the snowy pine.",
+    "subtextEs": "",
+    "subtextEn": "",
+    "ageVariants": {
+      "0_6": {
+        "es": "Suave, suave... el pino huele a invierno y hogar.",
+        "en": "Soft, soft... fresh pine smells like winter and home."
+      },
+      "7_12": {
+        "es": "Suave, suave... tus deditos exploran el pino nevado.",
+        "en": "Soft, soft... little fingers explore the snowy pine."
+      },
+      "13_24": {
+        "es": "Pasito a pasito nos acercamos al árbol de Navidad.",
+        "en": "Step by step we walk up to the Christmas tree."
+      }
+    }
+  },
+  {
+    "pageNumber": 8,
+    "id": "forest_textures",
+    "layoutReservePercent": 30,
+    "isDarkPage": false,
+    "isScenePage": false,
+    "isCapsulePage": false,
+    "isDedicationPage": false,
+    "textTemplateEs": "¡Qué textura tan fresca y qué aroma tan especial!",
+    "textTemplateEn": "Such fresh textures and such a cozy winter scent!",
+    "subtextEs": "",
+    "subtextEn": "",
+    "ageVariants": {
+      "0_6": {
+        "es": "Caricias tiernas en tus manitas mientras descubres el mundo.",
+        "en": "Gentle touches on your little hands as you discover the world."
+      },
+      "7_12": {
+        "es": "¡Qué textura tan fresca y qué aroma tan especial!",
+        "en": "Such fresh textures and such a cozy winter scent!"
+      },
+      "13_24": {
+        "es": "Tocamos con cuidado las ramas verdes y suaves.",
+        "en": "We gently touch the soft green pine branches."
+      }
+    }
+  },
+  {
+    "pageNumber": 9,
+    "id": "surprise_box_detail",
+    "layoutReservePercent": 30,
+    "isDarkPage": false,
+    "isScenePage": true,
+    "isCapsulePage": false,
+    "isDedicationPage": false,
+    "textTemplateEs": "¿Qué se esconde en la caja sorpresa? ¡Cucú-tras de amor!",
+    "textTemplateEn": "What's hiding in the surprise box? Peek-a-boo of love!",
+    "subtextEs": "",
+    "subtextEn": "",
+    "ageVariants": {
+      "0_6": {
+        "es": "¿Qué hay dentro de esta caja llena de luz?",
+        "en": "What is inside this box brimming with warm light?"
+      },
+      "7_12": {
+        "es": "¿Qué se esconde en la caja sorpresa? ¡Cucú-tras de amor!",
+        "en": "What's hiding in the surprise box? Peek-a-boo of love!"
+      },
+      "13_24": {
+        "es": "¡Abre la caja mágica con {petName}! ¿Qué habrá adentro?",
+        "en": "Open the magic box with {petName}! What could be inside?"
+      }
+    }
+  },
+  {
+    "pageNumber": 10,
+    "id": "golden_wonder",
+    "layoutReservePercent": 30,
+    "isDarkPage": false,
+    "isScenePage": false,
+    "isCapsulePage": false,
+    "isDedicationPage": false,
+    "textTemplateEs": "¡Estrellitas doradas vuelan por toda la habitación!",
+    "textTemplateEn": "Little golden stars drift all across the room!",
+    "subtextEs": "",
+    "subtextEn": "",
+    "ageVariants": {
+      "0_6": {
+        "es": "¡Sorpresa! Un destello mágico que baila sobre tu cuna.",
+        "en": "Surprise! A magical shimmer dancing above your crib."
+      },
+      "7_12": {
+        "es": "¡Estrellitas doradas vuelan por toda la habitación!",
+        "en": "Little golden stars drift all across the room!"
+      },
+      "13_24": {
+        "es": "¡Un mundo de estrellas y abrazos para compartir!",
+        "en": "A whole world of stars and warm hugs to share!"
+      }
+    }
+  },
+  {
+    "pageNumber": 11,
+    "id": "hearth_warmth",
+    "layoutReservePercent": 25,
+    "isDarkPage": false,
+    "isScenePage": true,
+    "isCapsulePage": false,
+    "isDedicationPage": false,
+    "textTemplateEs": "Un abrazo gigante junto al calor de la chimenea.",
+    "textTemplateEn": "A giant warm hug beside the glowing fireplace.",
+    "subtextEs": "",
+    "subtextEn": "",
+    "ageVariants": {
+      "0_6": {
+        "es": "Junto al calor del hogar, nuestro abrazo te envuelve.",
+        "en": "By the warmth of home, our embrace wraps around you."
+      },
+      "7_12": {
+        "es": "Un abrazo gigante junto al calor de la chimenea.",
+        "en": "A giant warm hug beside the glowing fireplace."
+      },
+      "13_24": {
+        "es": "Un abrazo fuerte para {giftGiverLabel} frente al fuego cálido.",
+        "en": "A big warm hug for {giftGiverLabel} by the cozy hearth."
+      }
+    }
+  },
+  {
+    "pageNumber": 12,
+    "id": "loving_embrace",
+    "layoutReservePercent": 30,
+    "isDarkPage": false,
+    "isScenePage": false,
+    "isCapsulePage": false,
+    "isDedicationPage": false,
+    "textTemplateEs": "Tu risa contagiosa llena de alegría cada rincón.",
+    "textTemplateEn": "Your contagious laughter fills every corner with joy.",
+    "subtextEs": "",
+    "subtextEn": "",
+    "ageVariants": {
+      "0_6": {
+        "es": "Latido a latido, crecemos juntos en esta Navidad.",
+        "en": "Heartbeat by heartbeat, we grow together this Christmas."
+      },
+      "7_12": {
+        "es": "Tu risa contagiosa llena de alegría cada rincón.",
+        "en": "Your contagious laughter fills every corner with joy."
+      },
+      "13_24": {
+        "es": "¡Qué felices somos celebrando juntos!",
+        "en": "How happy we are celebrating together!"
+      }
+    }
+  },
+  {
+    "pageNumber": 13,
+    "id": "rug_footprints",
+    "layoutReservePercent": 30,
+    "isDarkPage": false,
+    "isScenePage": true,
+    "isCapsulePage": false,
+    "isDedicationPage": false,
+    "textTemplateEs": "¡Mira cuántas sorpresas junto a la bota navideña!",
+    "textTemplateEn": "Look how many surprises wait beside the tree!",
+    "subtextEs": "",
+    "subtextEn": "",
+    "ageVariants": {
+      "0_6": {
+        "es": "Mira los regalos que esperan al pie del árbol.",
+        "en": "Look at the gifts waiting beneath the glowing tree."
+      },
+      "7_12": {
+        "es": "¡Mira cuántas sorpresas junto a la bota navideña!",
+        "en": "Look how many surprises wait beside the tree!"
+      },
+      "13_24": {
+        "es": "Seguimos las huellas por la alfombra hasta los regalos.",
+        "en": "We follow the footprints across the rug to the gifts."
+      }
+    }
+  },
+  {
+    "pageNumber": 14,
+    "id": "first_discoveries",
+    "layoutReservePercent": 30,
+    "isDarkPage": false,
+    "isScenePage": false,
+    "isCapsulePage": false,
+    "isDedicationPage": false,
+    "textTemplateEs": "Sigue el rastro de estrellas brillantes por la alfombra.",
+    "textTemplateEn": "Follow the trail of bright stars across the rug.",
+    "subtextEs": "",
+    "subtextEn": "",
+    "ageVariants": {
+      "0_6": {
+        "es": "El mejor regalo de todos eres tú en nuestros brazos.",
+        "en": "The greatest gift of all is holding you in our arms."
+      },
+      "7_12": {
+        "es": "Sigue el rastro de estrellas brillantes por la alfombra.",
+        "en": "Follow the trail of bright stars across the rug."
+      },
+      "13_24": {
+        "es": "Cada paso tuyo es una nueva aventura en familia.",
+        "en": "Every step you take is a new family adventure."
+      }
+    }
+  },
+  {
+    "pageNumber": 15,
+    "id": "christmas_eve_window",
+    "layoutReservePercent": 30,
+    "isDarkPage": false,
+    "isScenePage": true,
+    "isCapsulePage": false,
+    "isDedicationPage": false,
+    "textTemplateEs": "¡Mira por la ventana! Copos de nieve caen en silencio.",
+    "textTemplateEn": "Look out the window! Soft snowflakes fall in silence.",
+    "subtextEs": "",
+    "subtextEn": "",
+    "ageVariants": {
+      "0_6": {
+        "es": "La luna se asoma por la ventana en Nochebuena.",
+        "en": "The moon peeks through the window on Christmas Eve."
+      },
+      "7_12": {
+        "es": "¡Mira por la ventana! Copos de nieve caen en silencio.",
+        "en": "Look out the window! Soft snowflakes fall in silence."
+      },
+      "13_24": {
+        "es": "Miramos juntos las estrellas por la ventana de Nochebuena.",
+        "en": "Together we gaze at the stars on Christmas Eve."
+      }
+    }
+  },
+  {
+    "pageNumber": 16,
+    "id": "star_whisper",
+    "layoutReservePercent": 30,
+    "isDarkPage": true,
+    "isScenePage": false,
+    "isCapsulePage": false,
+    "isDedicationPage": false,
+    "textTemplateEs": "Una noche mágica llena de luces y colores.",
+    "textTemplateEn": "A magical night filled with gentle lights and colors.",
+    "subtextEs": "",
+    "subtextEn": "",
+    "ageVariants": {
+      "0_6": {
+        "es": "Las estrellas titilan despacito para acompañarte.",
+        "en": "The stars twinkle softly to keep you company."
+      },
+      "7_12": {
+        "es": "Una noche mágica llena de luces y colores.",
+        "en": "A magical night filled with gentle lights and colors."
+      },
+      "13_24": {
+        "es": "¡Buenas noches, luna! ¡Buenas noches, Navidad!",
+        "en": "Goodnight, moon! Goodnight, Christmas!"
+      }
+    }
+  },
+  {
+    "pageNumber": 17,
+    "id": "goodnight_lullaby",
+    "layoutReservePercent": 35,
+    "isDarkPage": true,
+    "isScenePage": true,
+    "isCapsulePage": false,
+    "isDedicationPage": false,
+    "textTemplateEs": "Acurrucado junto a {petName}, llega la hora de descansar.",
+    "textTemplateEn": "Snuggled beside {petName}, it is time to rest.",
+    "subtextEs": "",
+    "subtextEn": "",
+    "ageVariants": {
+      "0_6": {
+        "es": "Cierra tus ojitos, estrellita; {petName} cuida tu sueño.",
+        "en": "Close your little eyes, starlight; {petName} watches over your sleep."
+      },
+      "7_12": {
+        "es": "Acurrucado junto a {petName}, llega la hora de descansar.",
+        "en": "Snuggled beside {petName}, it is time to rest."
+      },
+      "13_24": {
+        "es": "Después de tanto jugar, {petName} se duerme a tu lado.",
+        "en": "After so much play, {petName} falls asleep beside you."
+      }
+    }
+  },
+  {
+    "pageNumber": 18,
+    "id": "sweet_dreams_close",
+    "layoutReservePercent": 30,
+    "isDarkPage": false,
+    "isScenePage": false,
+    "isCapsulePage": false,
+    "isDedicationPage": false,
+    "textTemplateEs": "Dulces sueños, pequeño explorador.",
+    "textTemplateEn": "Sweet dreams, little explorer.",
+    "subtextEs": "",
+    "subtextEn": "",
+    "ageVariants": {
+      "0_6": {
+        "es": "Buenas noches, mi amor. A soñar bonito.",
+        "en": "Goodnight, my love. Have the sweetest dreams."
+      },
+      "7_12": {
+        "es": "Dulces sueños, pequeño explorador.",
+        "en": "Sweet dreams, little explorer."
+      },
+      "13_24": {
+        "es": "Descansa, campeón; mañana seguiremos descubriendo el mundo.",
+        "en": "Rest well, little champion; tomorrow we discover more of the world."
+      }
+    }
+  },
+  {
+    "pageNumber": 19,
+    "id": "capsule_first_photo",
+    "layoutReservePercent": 30,
+    "isDarkPage": false,
+    "isScenePage": false,
+    "isCapsulePage": true,
+    "isDedicationPage": false,
+    "textTemplateEs": "Nuestra primera foto juntos",
+    "textTemplateEn": "Our First Photo Together",
+    "subtextEs": "Pega aquí nuestra foto favorita de esta Navidad para recordar siempre lo pequeñito que eras.",
+    "subtextEn": "Place our favorite photo from this Christmas here to always remember how tiny you were.",
+    "ageVariants": null
+  },
+  {
+    "pageNumber": 20,
+    "id": "capsule_footprints",
+    "layoutReservePercent": 30,
+    "isDarkPage": false,
+    "isScenePage": false,
+    "isCapsulePage": true,
+    "isDedicationPage": false,
+    "textTemplateEs": "Las huellas de tu primer año",
+    "textTemplateEn": "Prints of Your First Year",
+    "subtextEs": "Estampa aquí tu manita o tu piecito junto a la huella de {petName}.",
+    "subtextEn": "Stamp your tiny hand or footprint here beside {petName}'s paw print.",
+    "ageVariants": null
+  },
+  {
+    "pageNumber": 21,
+    "id": "capsule_first_words",
+    "layoutReservePercent": 30,
+    "isDarkPage": false,
+    "isScenePage": false,
+    "isCapsulePage": true,
+    "isDedicationPage": false,
+    "textTemplateEs": "Tus primeras palabras y sonidos",
+    "textTemplateEn": "Your First Words & Sounds",
+    "subtextEs": "Anotamos aquí los sonidos, risas y palabras con las que iluminaste nuestros días.",
+    "subtextEn": "We record here the sounds, giggles, and words that brightened our days.",
+    "ageVariants": null
+  },
+  {
+    "pageNumber": 22,
+    "id": "capsule_family_wishes",
+    "layoutReservePercent": 30,
+    "isDarkPage": false,
+    "isScenePage": false,
+    "isCapsulePage": true,
+    "isDedicationPage": false,
+    "textTemplateEs": "Deseos de quienes te aman",
+    "textTemplateEn": "Wishes From Those Who Love You",
+    "subtextEs": "Un espacio guardado para las palabras de mamá, papá, abuelos y padrinos.",
+    "subtextEn": "A space saved for loving words from mom, dad, grandparents, and godparents.",
+    "ageVariants": null
+  },
+  {
+    "pageNumber": 23,
+    "id": "official_certificate",
+    "layoutReservePercent": 30,
+    "isDarkPage": false,
+    "isScenePage": false,
+    "isCapsulePage": true,
+    "isDedicationPage": false,
+    "textTemplateEs": "Certificado Oficial de Primera Navidad",
+    "textTemplateEn": "Official First Christmas Certificate",
+    "subtextEs": "Certificamos que {childName}, junto a su fiel compañero {petName}, celebró su Primera Navidad llena de amor, asombro y alegría.",
+    "subtextEn": "We certify that {childName}, alongside their faithful companion {petName}, celebrated their First Christmas full of love, wonder, and joy.",
+    "ageVariants": null
+  },
+  {
+    "pageNumber": 24,
+    "id": "dedication_seal",
+    "layoutReservePercent": 60,
+    "isDarkPage": false,
+    "isScenePage": false,
+    "isCapsulePage": false,
+    "isDedicationPage": true,
+    "textTemplateEs": "Con amor eterno, para {childName}{ageStamp}.\nDiciembre {customYear}.\n\n“{dedicationText}”\n\n— {signatureText}",
+    "textTemplateEn": "With eternal love, for {childName}{ageStamp}.\nDecember {customYear}.\n\n“{dedicationText}”\n\n— {signatureText}",
+    "subtextEs": "",
+    "subtextEn": "",
+    "ageVariants": null
+  }
+]

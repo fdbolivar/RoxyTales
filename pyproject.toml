@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "roxytales-ai-engine"
+version = "1.0.0"
+description = "Motor de IA generativa y composición 3D para RoxyTales (Google GenAI Nano/Flash/Pro + FastAPI)"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+    { name = "RoxyTales Engineering Team", email = "engineering@roxytales.com" }
+]
+keywords = ["fastapi", "genai", "google-genai", "image-generation", "storybook", "print-on-demand"]
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.32.0",
+    "google-genai>=3.6.0",
+    "pillow>=10.4.0",
+    "python-multipart>=0.0.12",
+    "reportlab>=4.2.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "httpx>=0.27.0",
+]
+
+[tool.uvicorn]
+host = "127.0.0.1"
+port = 8000
+reload = true

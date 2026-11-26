@@ -1,0 +1,28 @@
+# Environment & Secrets (NEVER commit real keys)
+.env
+*.env
+!*env.example
+*Api Key*
+*.key
+*.pem
+*.secret
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+
+# Node / Build Artifacts
+node_modules/
+preview_standalone.html
+
+# Runtime Generated Storage (created automatically at backend startup)
+storage/
+
+# OS
+.DS_Store
+Thumbs.db

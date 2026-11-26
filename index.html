@@ -1,0 +1,1961 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RoxyTales · Cuentos Ilustrados de Colección para la Primera Infancia</title>
+  <meta name="description" content="Crea y personaliza el primer cuento encuadernado de tu bebé y su fiel compañero. Una edición de colección en tapa dura para atesorar toda la vida." />
+  <!-- Tailwind CSS (Compatible con Antigravity CSP y Navegadores Locales) -->
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Estilos visuales editoriales y reglas de encuadernación física -->
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body class="min-h-screen flex flex-col bg-[#FAF8F5] text-[#1A1715] selection:bg-rose-800 selection:text-white">
+
+  <!-- ========================================================================
+       BARRA DE CONFIANZA EDITORIAL Y ANUNCIO DE COLECCIÓN (CRO HEADER)
+       ======================================================================== -->
+  <aside class="bg-[#1A1715] text-[#FAF8F5] py-2 px-4 text-center text-xs tracking-wide border-b border-[#C28E3A]/40 flex items-center justify-center gap-2.5 sm:gap-4 flex-wrap">
+    <span class="inline-flex items-center gap-1.5 font-bold text-amber-200">
+      <span aria-hidden="true">✨</span>
+      <span data-i18n="topBarBadge">Edición Limitada para la Primera Infancia</span>
+    </span>
+    <span class="hidden sm:inline text-white/30" aria-hidden="true">·</span>
+    <span class="text-white/85 text-[11px] sm:text-xs" data-i18n="topBarSub">
+      Encuadernación de museo en tapa dura 8×8" · Muestra digital gratuita antes de comprar · Envío asegurado
+    </span>
+  </aside>
+
+  <!-- ========================================================================
+       MASTHEAD EDITORIAL / NAVBAR REFINADO BILINGÜE (ES | EN)
+       ======================================================================== -->
+  <header class="sticky top-0 z-40 bg-[#FAF8F5]/92 backdrop-blur-md border-b border-[#E8E2D9] shadow-2xs">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-2 sm:gap-4">
+      <!-- Marca e Imprint Oficial de la Editorial -->
+      <a href="#heroStudioSection" class="flex items-center gap-2 sm:gap-3.5 group min-w-0">
+        <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-white border border-[#D4A359]/60 p-0.5 shadow-xs overflow-hidden shrink-0 group-hover:scale-105 transition duration-300">
+          <img
+            src="./PublishingImprint/PublishingImprint.jpg"
+            alt="RoxyTales Official Imprint"
+            class="w-full h-full object-contain"
+          />
+        </div>
+        <div class="min-w-0">
+          <div class="flex items-center gap-2 sm:gap-2.5">
+            <span class="font-serif font-bold text-lg sm:text-2xl tracking-tight text-[#1A1715]">
+              Roxy<span class="text-[#991B1B]">Tales</span>
+            </span>
+            <span class="hidden md:inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-[#F5EFE6] text-[#786F66] border border-[#E8E2D9]" data-i18n="navPrintSpecsBadge">
+              Edición de Colección · Formato de Lujo
+            </span>
+          </div>
+          <p class="hidden sm:block text-[11px] text-[#786F66] font-normal" data-i18n="navTagline">
+            Libros de recuerdos ilustrados de colección · Encuadernación de lujo
+          </p>
+        </div>
+      </a>
+
+      <!-- Enlaces del Atelier + Selector Bilingüe (ES | EN) + Acceso Editorial -->
+      <div class="flex items-center gap-1.5 sm:gap-3 shrink-0">
+        <nav class="hidden lg:flex items-center gap-6 mr-3 text-xs font-medium text-[#4A433D]">
+          <a href="#heroStudioSection" class="hover:text-[#991B1B] transition" data-i18n="navStudioLink">Estudio Editorial</a>
+          <a href="#wizardStep5Card" class="hover:text-[#991B1B] transition" data-i18n="navEditionsLink">Formatos de Colección</a>
+          <a href="#secondaryCatalogSection" class="hover:text-[#991B1B] transition" data-i18n="navCatalogLink">Colecciones</a>
+        </nav>
+
+        <!-- Selector Bilingüe Sutil -->
+        <div class="inline-flex items-center p-0.5 rounded-xl bg-[#F0EAE1] border border-[#E2DAD0]" role="group" aria-label="Language Selector">
+          <button
+            type="button"
+            data-lang-switch="es"
+            class="px-2.5 py-1.5 rounded-lg text-xs font-bold transition bg-[#1A1715] text-white shadow-2xs"
+          >
+            ES
+          </button>
+          <button
+            type="button"
+            data-lang-switch="en"
+            class="px-2.5 py-1.5 rounded-lg text-xs font-bold transition text-[#615A52] hover:text-[#1A1715]"
+          >
+            EN
+          </button>
+        </div>
+
+        <!-- Acceso Directo a Checkout -->
+        <button
+          type="button"
+          id="navCheckoutBtn"
+          class="touch-target inline-flex items-center gap-1 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-[#991B1B] hover:bg-[#7F1D1D] text-white text-[11px] sm:text-xs font-bold transition shadow-sm whitespace-nowrap"
+          data-i18n="navCheckoutBtn"
+        >
+          💳 Finalizar Compra
+        </button>
+
+        <!-- Acceso Editorial Discreto (Admin Mode / Role Switcher) -->
+        <button
+          type="button"
+          id="roleSwitcherBtn"
+          aria-pressed="false"
+          title="Panel de Control Editorial (Ctrl + Shift + A)"
+          class="touch-target inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border border-[#DCD3C7] bg-white hover:border-[#1A1715] text-[#2C2621] text-xs font-medium transition shadow-2xs"
+        >
+          <span id="roleStatusDot" class="w-2 h-2 rounded-full bg-[#C28E3A]"></span>
+          <span class="hidden sm:inline" data-i18n="roleClient">Modo Tienda</span>
+          <span class="text-[10px] text-[#8C8277]">⚙</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       SECCIÓN 1: DEMOSTRACIÓN VISUAL INTERACTIVA · "DEL RETRATO A LA MAGIA"
+       Before / After Slider de alto impacto cinematográfico (Lead Hook)
+       ======================================================================== -->
+  <section id="photoRevealSection" class="pt-10 pb-14 sm:pt-14 sm:pb-16 bg-[#FAF8F5] border-b border-[#E8E2D9]">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[11px] font-semibold tracking-widest uppercase bg-white text-[#991B1B] border border-[#E8DFD3] shadow-2xs" data-i18n="revealEyebrow">
+        TRANSFORMACIÓN VISUAL EDITORIAL
+      </span>
+      <h2 class="mt-3 font-serif font-bold text-2xl sm:text-4xl lg:text-5xl text-[#1A1715] leading-tight" data-i18n="revealTitle">
+        Una simple foto. Una obra de arte que atesorará toda su vida.
+      </h2>
+      <p class="mt-3 text-xs sm:text-base text-[#615A52] max-w-2xl mx-auto leading-relaxed" data-i18n="revealSubtitle">
+        Desliza para descubrir cómo convertimos una fotografía cotidiana en una ilustración 3D de estudio cinematográfico con acabado de libro físico.
+      </p>
+
+      <!-- Componente Deslizador Antes / Después -->
+      <div class="mt-8 sm:mt-10">
+        <div id="photoRevealSliderContainer" class="before-after-container">
+          <!-- Capa DESPUÉS: Ilustración 3D de estudio -->
+          <img
+            src="./Roxy/RoxyTales-1-3D.jpg"
+            alt="Cuento 3D de Lujo"
+            class="before-after-after-img"
+          />
+          <span class="absolute top-4 right-4 z-10 px-3 py-1 rounded-full text-[11px] font-bold bg-[#1A1715]/80 text-[#FAF8F5] backdrop-blur-xs border border-white/20 shadow-xs" data-i18n="revealLabelAfter">
+            ✨ Tesoro Ilustrado 3D
+          </span>
+
+          <!-- Capa ANTES: Foto real cotidiana del móvil (recortada) -->
+          <div id="beforeAfterClip" class="before-after-clip">
+            <img
+              src="./Roxy/RoxyTales-1.jpg"
+              alt="Foto Real del Móvil"
+              class="before-after-before-img"
+            />
+            <span class="absolute top-4 left-4 z-10 px-3 py-1 rounded-full text-[11px] font-bold bg-[#1A1715]/80 text-[#FAF8F5] backdrop-blur-xs border border-white/20 shadow-xs" data-i18n="revealLabelBefore">
+              📷 Foto Real del Móvil
+            </span>
+          </div>
+
+          <!-- Tirador interactivo central dorado -->
+          <div id="beforeAfterHandle" class="before-after-handle">
+            <div class="before-after-thumb">
+              ↔
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6">
+          <a
+            href="#heroStudioSection"
+            class="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-[#991B1B] hover:bg-[#7F1D1D] text-white font-serif font-bold text-sm shadow-md transition duration-300"
+            data-i18n="revealCtaBtn"
+          >
+            ✨ Personaliza su tesoro ilustrado
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       SECCIÓN HERO EDITORIAL & ESTUDIO DE PERSONALIZACIÓN
+       Composición cinematográfica estilo Dynamo Sites: Gran titular editorial,
+       el libro físico 3D como obra central y panel atelier intuitivo.
+       ======================================================================== -->
+  <main id="heroStudioSection" class="hero-editorial-backdrop flex-1 pb-20">
+    
+    <!-- Encabezado Hero de Conversión Inmediata (uxpeak) -->
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-6 text-center">
+      <!-- Fila de Prueba Social y Ancla de Precio Transparente Inmediata -->
+      <div class="inline-flex flex-wrap items-center justify-center gap-2 sm:gap-3 px-4 py-1.5 rounded-full bg-white/95 border border-[#E8DFD3] shadow-xs text-xs mb-3.5">
+        <span class="inline-flex items-center gap-1.5 font-bold text-[#991B1B]">
+          <span class="text-amber-500">★★★★★</span>
+          <span class="text-[#1A1715]">4.9/5</span>
+          <span class="text-[#786F66] font-normal" data-i18n="heroFamiliesCount">· Más de 1,200 familias felices</span>
+        </span>
+        <span class="hidden sm:inline text-[#DCD3C7]">|</span>
+        <span class="inline-flex items-center gap-1 font-semibold text-[#1A1715]">
+          <span class="text-[#C28E3A]">★</span>
+          <span data-i18n="heroHardcoverLabel">Edición Tapa Dura de Colección (24 págs.) ·</span>
+          <strong class="font-bold text-[#991B1B]">$39.99 USD</strong>
+        </span>
+      </div>
+
+      <h1 class="font-serif text-3xl sm:text-5xl lg:text-6xl text-[#1A1715] leading-[1.12] tracking-tight" data-i18n="heroTitle">
+        El primer tesoro ilustrado de su vida, donde tu bebé y su fiel compañero <em class="italic font-normal text-[#991B1B]">cobran vida</em>.
+      </h1>
+
+      <p class="mt-3.5 text-xs sm:text-base text-[#615A52] max-w-2xl mx-auto leading-relaxed font-sans" data-i18n="heroSubtitle">
+        Edición de Colección de 24 páginas (8 escenas principales ilustradas a doble página + páginas de dedicatoria familiar y cápsula de recuerdos del primer año).
+      </p>
+
+      <!-- Micro-anclas preservadas de forma invisible para selectores internos -->
+      <div class="hidden" aria-hidden="true">
+        <button type="button" data-wizard-step-btn="1"></button>
+        <button type="button" data-wizard-step-btn="2"></button>
+        <button type="button" data-wizard-step-btn="3"></button>
+        <button type="button" data-wizard-step-btn="4"></button>
+        <button type="button" data-wizard-step-btn="5"></button>
+      </div>
+    </div>
+
+    <!-- Escenario Principal: 2 Columnas Balanceadas (Estudio a la izquierda / Visor 3D a la derecha) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+
+        <!-- ==================================================================
+             COLUMNA IZQUIERDA (6 COL): ATELIER DE PERSONALIZACIÓN ULTRA SIMPLIFICADO
+             Flujo optimizado para conversión (uxpeak): Solo 2 cargas directas + dedicatoria
+             ================================================================== -->
+        <div class="lg:col-span-6 space-y-6">
+
+          <!-- ================================================================
+               1. ZONA DE CARGA 1: EL BEBÉ PROTAGONISTA (PROTAGONISMO TOTAL)
+               ================================================================ -->
+          <section
+            id="wizardStep2Card"
+            class="bg-white rounded-3xl border border-[#E8E2D9] p-6 sm:p-7 shadow-xs transition-all"
+          >
+            <div class="flex flex-wrap items-start justify-between gap-2">
+              <div>
+                <span class="text-[11px] font-bold uppercase tracking-widest text-[#C28E3A]" data-i18n="step1Eyebrow">Paso 1 · El Protagonista</span>
+                <h2 class="font-serif font-bold text-xl sm:text-2xl text-[#1A1715] mt-0.5" data-i18n="step2Title">
+                  Tu Pequeño Gran Héroe
+                </h2>
+              </div>
+              <span id="ageUnitReactiveBadge" class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-[#F5EFE6] text-[#786F66] border border-[#E8E2D9]">
+                Etapa activa: Primeros meses (0–2 años)
+              </span>
+            </div>
+
+            <!-- Zona de Carga Directa de Foto del Bebé (Sin pestañas / Siempre visible) -->
+            <div class="mt-5">
+              <label class="block text-xs font-bold text-[#38322E] mb-1.5" data-i18n="babyPhotoDropLabel">
+                Fotografía del bebé
+              </label>
+              
+              <div
+                id="babyPhotoDropArea"
+                class="photo-upload-card text-center cursor-pointer border-2 border-dashed border-[#DCD3C7] hover:border-[#991B1B] rounded-2xl p-5 bg-[#FAF8F5]/80 hover:bg-white transition"
+              >
+                <input id="babyPhotoFileInput" type="file" accept="image/jpeg,image/png,image/webp" class="hidden" />
+                <div class="w-12 h-12 rounded-full bg-white border border-[#DCD3C7] mx-auto flex items-center justify-center text-xl shadow-xs">
+                  📸
+                </div>
+                <p class="mt-2 text-xs font-bold text-[#1A1715]" data-i18n="babyPhotoDropBoxText">
+                  Haz clic o arrastra la foto aquí
+                </p>
+                <p class="text-[11px] text-[#786F66] mt-0.5" data-i18n="photoDropHintShort">
+                  JPG, PNG o WEBP · Máx. 5 MB
+                </p>
+              </div>
+
+              <!-- Medallón Dorado de Previsualización Circular Inmediata -->
+              <div id="babyUploadedPreviewBox" class="hidden mt-3 p-3.5 rounded-2xl bg-amber-50/50 border border-[#D4A359]/50 flex items-center justify-between gap-3 shadow-xs">
+                <div class="flex items-center gap-3">
+                  <div class="relative w-12 h-12 rounded-full overflow-hidden photo-medallion-preview shrink-0">
+                    <img id="babyUploadedPreviewImg" src="" alt="Baby Preview" class="w-full h-full object-cover" />
+                  </div>
+                  <div>
+                    <span class="block text-xs font-bold text-[#1A1715] flex items-center gap-1">
+                      <span>✨</span> <span data-i18n="babyPhotoLoaded">Foto del bebé cargada</span>
+                    </span>
+                    <span id="babyUploadedFileName" class="text-[11px] text-[#786F66] truncate max-w-[170px] block">bebe.jpg</span>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  id="removeBabyPhotoBtn"
+                  class="touch-target px-3 py-1.5 rounded-xl bg-white border border-rose-200 text-xs text-rose-700 hover:bg-rose-50 font-bold transition shadow-2xs whitespace-nowrap"
+                  data-i18n="photoRemoveBtn"
+                >
+                  Cambiar foto
+                </button>
+              </div>
+            </div>
+
+            <!-- Nombre + Selector Reactivo de Edad -->
+            <div class="mt-5 grid grid-cols-1 sm:grid-cols-12 gap-4 items-center pt-4 border-t border-[#E8E2D9]">
+              <div class="sm:col-span-5">
+                <div class="flex items-center justify-between mb-1.5">
+                  <label for="childNameInput" class="text-xs font-bold text-[#38322E]" data-i18n="childNameLabel">
+                    Nombre del bebé
+                  </label>
+                  <span id="childNameCharCount" class="text-[11px] text-[#8C8277]">4/18</span>
+                </div>
+                <input
+                  id="childNameInput"
+                  type="text"
+                  maxlength="18"
+                  value="Liam"
+                  data-i18n-placeholder="childNamePlaceholder"
+                  placeholder="Ej. Liam"
+                  class="touch-target w-full px-4 py-2.5 rounded-2xl border border-[#DCD3C7] bg-[#FAF8F5]/60 text-sm font-bold text-[#1A1715] focus:outline-none focus:border-[#991B1B] focus:bg-white transition"
+                />
+              </div>
+
+              <div class="sm:col-span-7 bg-[#FAF8F5] p-3.5 rounded-2xl border border-[#E8E2D9]">
+                <div class="flex items-center justify-between gap-2 mb-1.5">
+                  <label for="ageRangeSlider" id="ageDynamicLabel" class="text-xs font-bold text-[#38322E]" data-i18n="ageLabelMonths">
+                    Edad del bebé (0 a 24 meses)
+                  </label>
+                  <div class="flex items-center gap-1.5 bg-white px-2 py-0.5 rounded-xl border border-[#DCD3C7] shadow-2xs">
+                    <input
+                      id="ageNumberInput"
+                      type="number"
+                      min="0"
+                      max="24"
+                      value="10"
+                      class="w-10 text-center font-bold text-sm text-[#991B1B] focus:outline-none"
+                    />
+                    <span id="ageUnitInlineText" class="text-xs font-bold text-[#4A433D]" data-i18n="ageUnitMonths">meses</span>
+                  </div>
+                </div>
+                <input
+                  id="ageRangeSlider"
+                  type="range"
+                  min="0"
+                  max="24"
+                  value="10"
+                  class="w-full accent-[#991B1B] cursor-pointer"
+                />
+                <div class="flex justify-between text-[10px] text-[#8C8277] mt-0.5">
+                  <span id="ageSliderMinLabel">0 meses</span>
+                  <span id="ageSliderMaxLabel">24 meses</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Selector de Colección (Sutil) -->
+            <div class="mt-4">
+              <label for="collectionSelect" class="block text-[11px] font-bold text-[#786F66] mb-1" data-i18n="collectionSelectLabel">
+                Título del cuento y colección
+              </label>
+              <select
+                id="collectionSelect"
+                class="touch-target w-full px-3.5 py-2 rounded-xl border border-[#DCD3C7] bg-[#FAF8F5]/60 text-xs font-semibold text-[#1A1715] focus:outline-none focus:border-[#991B1B] transition"
+              ></select>
+            </div>
+
+          </section>
+
+          <!-- ================================================================
+               2. ZONA DE CARGA 2: EL COMPAÑERO DE AVENTURAS
+               ================================================================ -->
+          <section
+            id="wizardStep3Card"
+            class="bg-white rounded-3xl border border-[#E8E2D9] p-6 sm:p-7 shadow-xs transition-all"
+          >
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-widest text-[#C28E3A]" data-i18n="step2Eyebrow">Paso 2 · El Compañero</span>
+              <h2 class="font-serif font-bold text-xl sm:text-2xl text-[#1A1715] mt-0.5" data-i18n="step3Title">
+                Su Inseparable Compañero de Aventuras
+              </h2>
+              <p class="mt-1 text-xs text-[#615A52]" data-i18n="step3Desc">
+                Sube la foto de tu fiel compañero o usa a Roxy.
+              </p>
+            </div>
+
+            <!-- Zona de Carga Directa de Foto del Compañero -->
+            <div class="mt-5">
+              <label class="block text-xs font-bold text-[#38322E] mb-1.5" data-i18n="petPhotoDropLabel">
+                Fotografía de tu fiel compañero
+              </label>
+              
+              <div
+                id="petPhotoDropArea"
+                class="photo-upload-card text-center cursor-pointer border-2 border-dashed border-[#DCD3C7] hover:border-[#991B1B] rounded-2xl p-5 bg-[#FAF8F5]/80 hover:bg-white transition"
+              >
+                <input id="petPhotoFileInput" type="file" accept="image/jpeg,image/png,image/webp" class="hidden" />
+                <div class="w-12 h-12 rounded-full bg-white border border-[#DCD3C7] mx-auto flex items-center justify-center text-xl shadow-xs">
+                  🐾
+                </div>
+                <p class="mt-2 text-xs font-bold text-[#1A1715]" data-i18n="petPhotoDropBoxText">
+                  Haz clic o arrastra la foto aquí
+                </p>
+                <p class="text-[11px] text-[#786F66] mt-0.5" data-i18n="photoDropHintShort">
+                  JPG, PNG o WEBP · Máx. 5 MB
+                </p>
+              </div>
+
+              <!-- Medallón Dorado de Previsualización Circular de la Mascota -->
+              <div id="petUploadedPreviewBox" class="hidden mt-3 p-3.5 rounded-2xl bg-amber-50/50 border border-[#D4A359]/50 flex items-center justify-between gap-3 shadow-xs">
+                <div class="flex items-center gap-3">
+                  <div class="relative w-12 h-12 rounded-full overflow-hidden photo-medallion-preview shrink-0">
+                    <img id="petUploadedPreviewImg" src="" alt="Pet Preview" class="w-full h-full object-cover" />
+                  </div>
+                  <div>
+                    <span class="block text-xs font-bold text-[#1A1715] flex items-center gap-1">
+                      <span>✨</span> <span data-i18n="petPhotoLoaded">Fiel compañero cargado</span>
+                    </span>
+                    <span id="petUploadedFileName" class="text-[11px] text-[#786F66] truncate max-w-[170px] block">mascota.jpg</span>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  id="removePetPhotoBtn"
+                  class="touch-target px-3 py-1.5 rounded-xl bg-white border border-rose-200 text-xs text-rose-700 hover:bg-rose-50 font-bold transition shadow-2xs whitespace-nowrap"
+                  data-i18n="petRemovePhotoBtn"
+                >
+                  Quitar foto
+                </button>
+              </div>
+            </div>
+
+            <!-- Opción Discreta de 1 Clic para usar a Roxy -->
+            <div class="mt-3.5 p-3.5 rounded-2xl bg-[#FAF8F5] border border-[#E8E2D9] flex items-center justify-between gap-3">
+              <div class="flex items-center gap-3">
+                <img src="./assets/sprites/roxy_official_sprite.png" alt="Roxy Official" class="w-10 h-10 rounded-full object-contain bg-amber-50/50 p-0.5 border border-[#D4A359] shrink-0" />
+                <div>
+                  <span class="block text-xs font-bold text-[#1A1715]" data-i18n="noPhotoHandyTitle">¿No tienes foto a la mano?</span>
+                  <span class="block text-[11px] text-[#786F66]" data-i18n="noPhotoHandyDesc">Usa a nuestra cachorrita Roxy (con su lazo rojo)</span>
+                </div>
+              </div>
+              <button
+                type="button"
+                id="useRoxyDefaultBtn"
+                class="touch-target px-3.5 py-1.5 rounded-xl bg-white hover:bg-[#FAF8F5] border border-[#DCD3C7] text-xs font-bold text-[#991B1B] transition shadow-2xs whitespace-nowrap"
+                data-i18n="useRoxyBtn"
+              >
+                🐾 Usar a Roxy
+              </button>
+            </div>
+
+            <!-- Campos de Mascota (Nombre y Sonido) -->
+            <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-[#E8E2D9]">
+              <div>
+                <label for="petNameInput" class="block text-xs font-bold text-[#38322E] mb-1.5" data-i18n="petNameLabel">Nombre del fiel compañero</label>
+                <input
+                  id="petNameInput"
+                  type="text"
+                  value="Roxy"
+                  class="touch-target w-full px-4 py-2.5 rounded-2xl border border-[#DCD3C7] bg-[#FAF8F5]/60 text-sm font-bold text-[#1A1715] focus:outline-none focus:border-[#991B1B] transition"
+                />
+              </div>
+
+              <div>
+                <label for="petSoundInput" class="block text-xs font-bold text-[#38322E] mb-1.5" data-i18n="petSoundLabel">Sonido o ladrido en la pág. 3</label>
+                <input
+                  id="petSoundInput"
+                  type="text"
+                  value="Guau, guau"
+                  class="touch-target w-full px-4 py-2.5 rounded-2xl border border-[#DCD3C7] bg-[#FAF8F5]/60 text-sm font-bold text-[#1A1715] focus:outline-none focus:border-[#991B1B] transition"
+                />
+              </div>
+            </div>
+
+            <!-- Botones de Acción Inmediata: Vista Previa Mágica y Descarga Gratuita -->
+            <div class="mt-6 pt-5 border-t border-[#E8E2D9] flex flex-col sm:flex-row gap-3">
+              <button
+                type="button"
+                id="generateMagicPreviewBtn"
+                class="touch-target flex-1 py-4 px-6 rounded-2xl bg-[#991B1B] hover:bg-[#7F1D1D] text-white font-serif font-bold text-base shadow-md transition duration-300 flex items-center justify-center gap-2 group"
+                data-i18n="generatePreviewBtn"
+              >
+                <span>✨ Crear vista previa mágica</span>
+              </button>
+              <button
+                type="button"
+                id="downloadSamplePdfBtn"
+                class="touch-target py-4 px-5 rounded-2xl bg-white hover:bg-[#FAF8F5] border border-[#DCD3C7] text-[#38322E] font-bold text-xs transition shadow-2xs flex items-center justify-center gap-1.5"
+                data-i18n="downloadSamplePdfBtn"
+              >
+                📄 Descargar muestra gratis
+              </button>
+            </div>
+
+          </section>
+
+          <!-- ================================================================
+               3. LA DEDICATORIA Y EL REMITENTE DE AMOR
+               ================================================================ -->
+          <section
+            id="wizardStep1Card"
+            class="bg-white rounded-3xl border border-[#E8E2D9] p-6 sm:p-7 shadow-xs transition-all"
+          >
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <span class="text-[11px] font-bold uppercase tracking-widest text-[#C28E3A]" data-i18n="step3Eyebrow">Paso 3 · Dedicatoria Familiar</span>
+                <h2 class="font-serif font-bold text-xl sm:text-2xl text-[#1A1715] mt-0.5" data-i18n="step1Title">
+                  La Dedicatoria y el Vínculo Familiar
+                </h2>
+                <p class="mt-1 text-xs text-[#615A52] leading-relaxed" data-i18n="step1Desc">
+                  Quién entrega este tesoro y las palabras que acompañarán a tu bebé para siempre.
+                </p>
+              </div>
+            </div>
+
+            <!-- Alerta de validación suave si faltan datos -->
+            <div
+              id="step1ValidationAlertBox"
+              class="hidden mt-4 p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-medium flex items-center gap-2"
+            >
+              <span>💌</span>
+              <span data-i18n="step1ValidationAlert">
+                Por favor ingresa tu nombre completo y un correo electrónico válido para continuar.
+              </span>
+            </div>
+
+            <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="buyerNameInput" class="block text-xs font-bold text-[#38322E] mb-1.5" data-i18n="buyerNameLabel">
+                  Tu nombre completo (Remitente del regalo)
+                </label>
+                <input
+                  id="buyerNameInput"
+                  type="text"
+                  required
+                  value=""
+                  data-i18n-placeholder="buyerNamePlaceholder"
+                  placeholder="Ej. Carolina Martínez"
+                  class="touch-target w-full px-4 py-2.5 rounded-2xl border border-[#DCD3C7] bg-[#FAF8F5]/60 text-sm font-semibold text-[#1A1715] focus:outline-none focus:border-[#991B1B] focus:bg-white transition"
+                />
+              </div>
+
+              <div>
+                <label for="buyerEmailInput" class="block text-xs font-bold text-[#38322E] mb-1.5" data-i18n="buyerEmailLabel">
+                  Tu correo electrónico (Muestra y seguimiento)
+                </label>
+                <input
+                  id="buyerEmailInput"
+                  type="email"
+                  required
+                  value=""
+                  data-i18n-placeholder="buyerEmailPlaceholder"
+                  placeholder="ejemplo@familia.com"
+                  class="touch-target w-full px-4 py-2.5 rounded-2xl border border-[#DCD3C7] bg-[#FAF8F5]/60 text-sm font-semibold text-[#1A1715] focus:outline-none focus:border-[#991B1B] focus:bg-white transition"
+                />
+              </div>
+            </div>
+
+            <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="relationshipSelect" class="block text-xs font-bold text-[#38322E] mb-1.5" data-i18n="relationshipLabel">
+                  ¿Cuál es tu parentesco con el bebé?
+                </label>
+                <select
+                  id="relationshipSelect"
+                  class="touch-target w-full px-4 py-2.5 rounded-2xl border border-[#DCD3C7] bg-[#FAF8F5]/60 text-sm font-semibold text-[#1A1715] focus:outline-none focus:border-[#991B1B] transition"
+                ></select>
+                <div id="customRelationshipWrapper" class="hidden mt-2">
+                  <input
+                    id="customRelationshipInput"
+                    type="text"
+                    maxlength="40"
+                    data-i18n-placeholder="customRelationshipPlaceholder"
+                    placeholder="Ej. Ann y Sam / Papá y tu tío Luis"
+                    class="touch-target w-full px-4 py-2 rounded-2xl border border-[#DCD3C7] bg-white text-sm font-semibold text-[#1A1715] focus:outline-none focus:border-[#991B1B] transition"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label for="customYearInput" class="block text-xs font-bold text-[#38322E] mb-1.5" data-i18n="customYearLabel">
+                  Año de edición
+                </label>
+                <input
+                  id="customYearInput"
+                  type="number"
+                  min="2020"
+                  max="2035"
+                  value="2026"
+                  class="touch-target w-full px-4 py-2.5 rounded-2xl border border-[#DCD3C7] bg-[#FAF8F5]/60 text-sm font-semibold text-[#1A1715] focus:outline-none focus:border-[#991B1B] transition"
+                />
+              </div>
+            </div>
+
+            <div class="mt-4">
+              <div class="flex items-center justify-between mb-1.5">
+                <label for="dedicationInput" class="text-xs font-bold text-[#38322E]" data-i18n="dedicationLabel">
+                  Dedicatoria especial
+                </label>
+                <button
+                  type="button"
+                  id="inspireDedicationBtn"
+                  class="text-xs font-bold text-[#991B1B] hover:text-[#7F1D1D] transition flex items-center gap-1"
+                  data-i18n="inspireBtnLabel"
+                >
+                  ✨ Inspirar dedicatoria
+                </button>
+              </div>
+              <textarea
+                id="dedicationInput"
+                rows="2"
+                maxlength="240"
+                data-i18n-placeholder="dedicationPlaceholder"
+                placeholder="Escribe aquí tu dedicatoria especial para la Página 8..."
+                class="w-full p-3.5 rounded-2xl border border-[#DCD3C7] bg-[#FAF8F5]/50 text-xs sm:text-sm font-dedication text-[#1A1715] focus:outline-none focus:border-[#991B1B] focus:bg-white transition"
+              ></textarea>
+            </div>
+
+            <div id="step1LeadGateBanner" class="mt-4 p-3.5 rounded-2xl bg-[#F7F2E9] border border-[#E4DAC8] text-[#594F45] text-xs font-medium flex items-center justify-between gap-2">
+              <span id="step1LeadGateStatusText" data-i18n="leadGateStatusLocked">
+                🔒 Ingresa tu nombre y correo válidos para desplegar la magia.
+              </span>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ==================================================================
+             COLUMNA DERECHA (6 COL · STICKY): EL LIBRO FÍSICO 3D EN PRIMER PLANO
+             ================================================================== -->
+        <aside id="bookViewerColumn" class="lg:col-span-6 lg:sticky lg:top-24 space-y-4">
+          <div id="wizardStep4Card" class="bg-white rounded-3xl border border-[#E8E2D9] p-5 sm:p-6 shadow-md transition-all">
+            
+            <!-- Cabecera del Visor de Lectura -->
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+              <div>
+                <span class="text-[11px] font-bold uppercase tracking-widest text-[#C28E3A]" data-i18n="viewerEyebrow">EDICIÓN DE COLECCIÓN · 24 PÁGINAS</span>
+                <h2 class="font-serif font-bold text-lg sm:text-xl text-[#1A1715]" data-i18n="viewerHeaderTitle">
+                  Tu tesoro ilustrado cobra vida
+                </h2>
+                <div class="flex items-center gap-2 mt-1">
+                  <span id="viewerPageRoleBadge" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#1A1715] text-white border border-white/20 shadow-xs">
+                    Portada Principal
+                  </span>
+                  <span id="viewerReserveZoneBadge" class="hidden" aria-hidden="true"></span>
+                </div>
+              </div>
+
+              <!-- Herramientas Editoriales Opcionales (Ocultas al cliente final) -->
+              <label class="hidden" aria-hidden="true">
+                <input id="togglePrintGuidesCheckbox" type="checkbox" class="accent-[#991B1B] rounded" />
+                <span data-i18n="viewerSafeMarginToggle">Guías editoriales</span>
+              </label>
+            </div>
+
+            <!-- LIENZO CUADRADO 1:1 DEL LIBRO 3D -->
+            <div class="book-stage-wrapper">
+              <!-- Sombra pedestal bajo el libro -->
+              <div class="book-pedestal-shadow"></div>
+
+              <!-- Botones Flotantes Laterales -->
+              <button
+                type="button"
+                id="floatingPrevBtn"
+                class="floating-nav-btn floating-nav-prev touch-target"
+                title="Página anterior"
+                aria-label="Página anterior"
+              >
+                ‹
+              </button>
+              <button
+                type="button"
+                id="floatingNextBtn"
+                class="floating-nav-btn floating-nav-next touch-target"
+                title="Página siguiente"
+                aria-label="Página siguiente"
+              >
+                ›
+              </button>
+
+              <div id="bookCanvas8x8" class="book-canvas-8x8">
+                <!-- Escenario interno renderizado dinámicamente por app.js -->
+                <div id="bookPageInnerStage" class="w-full h-full"></div>
+
+                <!-- Secuencia Cinemática de Carga ("Tejiendo la magia" - 2.5s) -->
+                <div
+                  id="viewerMagicRenderOverlay"
+                  class="hidden absolute inset-0 z-40 bg-[#141211]/92 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center text-white"
+                >
+                  <canvas id="magicParticlesCanvas" class="absolute inset-0 pointer-events-none w-full h-full"></canvas>
+
+                  <div class="relative z-20 mb-4">
+                    <div class="magic-scanner-portal">
+                      <div class="magic-scanner-ring"></div>
+                      <div class="magic-scan-beam"></div>
+                      <div id="magicScannerPhotoWrapper" class="w-full h-full rounded-full overflow-hidden border-2 border-[#D4A359] shadow-2xl bg-amber-950/40 flex items-center justify-center">
+                        <img id="magicScannerBabyImg" src="" alt="Baby Scan" class="w-full h-full object-cover hidden" />
+                        <div id="magicScannerAvatarFallback" class="text-4xl">👶</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <h3 class="relative z-20 font-serif font-bold text-xl sm:text-2xl text-[#F5E5C9]" data-i18n="renderingModalTitle">
+                    Tejiendo la magia de tu libro...
+                  </h3>
+                  <p id="viewerRenderStageText" class="relative z-20 mt-2 text-xs text-[#FAF8F5] tracking-wide px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-xs border border-white/15">
+                    Escaneando la tierna sonrisa de Liam...
+                  </p>
+
+                  <div class="relative z-20 w-full max-w-xs h-2.5 bg-white/15 rounded-full overflow-hidden mt-4 p-0.5 border border-white/20">
+                    <div
+                      id="viewerRenderProgressBar"
+                      class="h-full rounded-full bg-gradient-to-r from-[#991B1B] via-[#C28E3A] to-[#10B981] transition-all duration-300 shadow-[0_0_12px_rgba(212,163,89,0.85)]"
+                      style="width: 15%"
+                    ></div>
+                  </div>
+                </div>
+
+                <!-- Overlay de Acceso a Páginas 2 a 8 -->
+                <div
+                  id="viewerLockedGateOverlay"
+                  class="hidden absolute inset-0 z-35 bg-[#141211]/80 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center text-white"
+                >
+                  <div class="w-12 h-12 rounded-full bg-[#991B1B] text-white flex items-center justify-center text-xl mb-3 shadow-lg">
+                    📖
+                  </div>
+                  <h3 class="font-serif font-bold text-lg sm:text-xl text-white" data-i18n="viewerLockedOverlayTitle">
+                    Tu cuento personalizado está listo
+                  </h3>
+                  <p class="mt-2 text-xs text-[#FAF8F5]/90 max-w-xs leading-relaxed" data-i18n="viewerLockedOverlayDesc">
+                    Ingresa tu nombre y correo para desplegar las 8 páginas ilustradas y recibir tu muestra digital gratuita.
+                  </p>
+                  <button
+                    type="button"
+                    id="viewerUnlockLeadGateBtn"
+                    class="touch-target mt-4 px-5 py-2.5 rounded-2xl bg-[#C28E3A] hover:bg-[#D4A359] text-[#1A1715] font-bold text-xs shadow-lg transition"
+                    data-i18n="viewerUnlockBtn"
+                  >
+                    Desplegar las 8 páginas del cuento
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Controles de Navegación Página a Página -->
+            <div class="mt-3 flex items-center justify-between gap-2">
+              <button
+                type="button"
+                id="viewerPrevPageBtn"
+                class="touch-target px-4 py-2 rounded-xl border border-[#DCD3C7] bg-[#FAF8F5] hover:bg-white disabled:opacity-35 text-xs font-bold text-[#1A1715] transition"
+                data-i18n="viewerPrevBtn"
+              >
+                ← Anterior
+              </button>
+
+              <span id="viewerPageCounter" class="font-serif font-bold text-sm text-[#1A1715]">
+                Página 1 de 24
+              </span>
+
+              <button
+                type="button"
+                id="viewerNextPageBtn"
+                class="touch-target px-4 py-2 rounded-xl border border-[#DCD3C7] bg-[#FAF8F5] hover:bg-white disabled:opacity-35 text-xs font-bold text-[#1A1715] transition"
+                data-i18n="viewerNextBtn"
+              >
+                Siguiente →
+              </button>
+            </div>
+
+            <!-- Selector directo de las 8 páginas -->
+            <div id="viewerPagePills" class="mt-3 flex items-center justify-center gap-1.5 flex-wrap"></div>
+
+            <!-- Sugerencia de Lectura Afectiva -->
+            <div class="mt-4 p-4 rounded-2xl bg-[#FAF8F5] border border-[#E8E2D9]">
+              <div class="text-xs font-bold text-[#38322E] mb-1 flex items-center gap-1.5" data-i18n="sensoryGuideTitle">
+                <span>📖</span> Sugerencia de Lectura Afectiva
+              </div>
+              <p id="viewerSensoryGuideText" class="text-xs text-[#615A52] font-dedication italic leading-relaxed"></p>
+            </div>
+
+            <!-- Gatillo de Conversión Post-Revelación (Página 8) -->
+            <div
+              id="postRevealUpsellCard"
+              class="hidden mt-4 p-5 rounded-2xl post-reveal-upsell-card border"
+            >
+              <div class="flex items-start gap-3.5">
+                <span class="text-2xl shrink-0">🎁</span>
+                <div class="flex-1">
+                  <h3 class="font-serif font-bold text-base text-[#1A1715]" data-i18n="postRevealTitle">
+                    ¿Te enamoraste del resultado?
+                  </h3>
+                  <p class="mt-1 text-xs text-[#615A52] leading-relaxed" data-i18n="postRevealBody">
+                    Descarga tu muestra digital gratis ingresando tu correo o recibe esta edición impresa de 24 páginas en pasta dura en la puerta de tu casa (3 a 5 días hábiles estimados).
+                  </p>
+                  <div class="mt-4 flex flex-col sm:flex-row gap-2.5">
+                    <button
+                      type="button"
+                      id="postRevealSamplePdfBtn"
+                      class="touch-target flex-1 px-4 py-2.5 rounded-xl bg-white hover:bg-[#FAF8F5] border border-[#DCD3C7] text-[#1A1715] text-xs font-bold transition shadow-2xs flex items-center justify-center gap-1.5"
+                      data-i18n="postRevealFreePdfBtn"
+                    >
+                      📄 Descargar muestra digital gratis
+                    </button>
+                    <button
+                      type="button"
+                      id="postRevealOrderHardcoverBtn"
+                      class="touch-target flex-1 px-4 py-2.5 rounded-xl bg-[#991B1B] hover:bg-[#7F1D1D] text-white text-xs font-bold transition shadow-md flex items-center justify-center gap-1.5"
+                      data-i18n="postRevealOrderHardcoverBtn"
+                    >
+                      ⭐ Pedir Edición Pasta Dura
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Ficha Técnica Editorial Oculta / Depuración (Preserva IDs para scripts) -->
+            <div id="editorialDebugTools" class="hidden">
+              <pre id="viewerPromptText"></pre>
+              <button type="button" id="copyPagePromptBtn"></button>
+            </div>
+
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- ========================================================================
+       FRANJA DE CALIDAD EDITORIAL Y GARANTÍA CRO (MUSEUM KEEPSAKE PILLARS)
+       ======================================================================== -->
+  <div class="bg-white border-y border-[#E8E2D9] py-5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+        <div class="flex items-center justify-center gap-2.5">
+          <span class="text-xl" aria-hidden="true">🌿</span>
+          <div class="text-left">
+            <span class="block text-xs font-bold text-[#1A1715]" data-i18n="specSilkTitle">Papel Silk 170 gsm</span>
+            <span class="block text-[11px] text-[#786F66]" data-i18n="specSilkDesc">Acabado mate sedoso y colores vibrantes</span>
+          </div>
+        </div>
+        <div class="flex items-center justify-center gap-2.5">
+          <span class="text-xl" aria-hidden="true">✨</span>
+          <div class="text-left">
+            <span class="block text-xs font-bold text-[#1A1715]" data-i18n="specHardcoverTitle">Tapa Dura Rígida</span>
+            <span class="block text-[11px] text-[#786F66]" data-i18n="specHardcoverDesc">Encuadernación profesional de alta resistencia</span>
+          </div>
+        </div>
+        <div class="flex items-center justify-center gap-2.5">
+          <span class="text-xl" aria-hidden="true">⚡</span>
+          <div class="text-left">
+            <span class="block text-xs font-bold text-[#1A1715]" data-i18n="specDigitalTitle">Edición Digital Incluida</span>
+            <span class="block text-[11px] text-[#786F66]" data-i18n="specDigitalDesc">Descarga inmediata para leer hoy mismo</span>
+          </div>
+        </div>
+        <div class="flex items-center justify-center gap-2.5">
+          <span class="text-xl" aria-hidden="true">🛡️</span>
+          <div class="text-left">
+            <span class="block text-xs font-bold text-[#1A1715]" data-i18n="specGuaranteeTitle">Garantía de Sonrisas 100%</span>
+            <span class="block text-[11px] text-[#786F66]" data-i18n="specGuaranteeDesc">Reimpresión sin costo ante cualquier defecto</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       SECCIÓN 2: GALERÍA DE INSPIRACIÓN · "PEQUEÑOS GRANDES HÉROES"
+       ======================================================================== -->
+  <section id="inspirationGallerySection" class="py-16 sm:py-20 bg-white border-t border-[#E8E2D9]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mx-auto text-center">
+        <span class="text-[11px] font-bold uppercase tracking-widest text-[#C28E3A]" data-i18n="galleryEyebrow">
+          HISTORIAS REALES QUE INSPIRAN
+        </span>
+        <h2 class="mt-1 font-serif font-bold text-2xl sm:text-4xl text-[#1A1715]" data-i18n="galleryTitle">
+          Pequeños Grandes Héroes de RoxyTales
+        </h2>
+        <p class="mt-2 text-xs sm:text-sm text-[#615A52]" data-i18n="gallerySubtitle">
+          Explora cómo otras familias personalizaron el cuento de su bebé con su fiel compañero y descubre el estilo perfecto para tu hogar.
+        </p>
+      </div>
+
+      <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Tarjeta 1: Liam & Roxy -->
+        <div class="inspiration-card p-6 rounded-3xl bg-[#FAF8F5] border border-[#E8E2D9] flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#F4EFEA] text-[#991B1B] border border-[#E8DFD3]" data-i18n="galleryCase1Badge">
+                Vínculo Inseparable
+              </span>
+              <span class="text-xs font-mono font-bold text-[#C28E3A]" data-i18n="galleryCase1Age">10 meses</span>
+            </div>
+            <div class="aspect-square rounded-2xl overflow-hidden border border-[#DCD3C7] shadow-xs mb-4">
+              <img src="./assets/stories/my_first_christmas_24p/layouts/page_01.jpg" alt="Liam & Roxy" class="w-full h-full object-cover" />
+            </div>
+            <h3 class="font-serif font-bold text-lg text-[#1A1715]" data-i18n="galleryCase1Title">
+              Liam &amp; Roxy (10 meses)
+            </h3>
+            <p class="mt-1 text-xs text-[#786F66] font-medium" data-i18n="galleryCase1Desc">
+              Su primera Navidad juntos frente a la chimenea
+            </p>
+            <p class="mt-3 text-xs text-[#615A52] font-dedication italic leading-relaxed" data-i18n="galleryCase1Quote">
+              «Liam no paraba de señalar a Roxy en el libro diciendo 'guau'. Fue el momento más tierno de Nochebuena.»
+            </p>
+          </div>
+          <button
+            type="button"
+            data-try-style="case1"
+            class="touch-target mt-5 w-full py-2.5 px-4 rounded-xl bg-white hover:bg-[#FAF8F5] border border-[#DCD3C7] text-[#1A1715] text-xs font-bold transition shadow-2xs text-center"
+            data-i18n="galleryTryStyleBtn"
+          >
+            Probar este estilo con mi bebé →
+          </button>
+        </div>
+
+        <!-- Tarjeta 2: Sofía & Lucas -->
+        <div class="inspiration-card p-6 rounded-3xl bg-[#FAF8F5] border border-[#E8E2D9] flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#F4EFEA] text-[#991B1B] border border-[#E8DFD3]" data-i18n="galleryCase2Badge">
+                Estimulación Temprana
+              </span>
+              <span class="text-xs font-mono font-bold text-[#C28E3A]" data-i18n="galleryCase2Age">8 meses</span>
+            </div>
+            <div class="aspect-square rounded-2xl overflow-hidden border border-[#DCD3C7] shadow-xs mb-4">
+              <img src="./assets/stories/my_first_christmas_24p/layouts/page_07.jpg" alt="Sofía & Lucas" class="w-full h-full object-cover" />
+            </div>
+            <h3 class="font-serif font-bold text-lg text-[#1A1715]" data-i18n="galleryCase2Title">
+              Sofía &amp; Lucas (8 meses)
+            </h3>
+            <p class="mt-1 text-xs text-[#786F66] font-medium" data-i18n="galleryCase2Desc">
+              El asombro de tocar su primera esfera brillante
+            </p>
+            <p class="mt-3 text-xs text-[#615A52] font-dedication italic leading-relaxed" data-i18n="galleryCase2Quote">
+              «Los contrastes visuales mantuvieron su atención desde el primer segundo. La textura del papel es divina.»
+            </p>
+          </div>
+          <button
+            type="button"
+            data-try-style="case2"
+            class="touch-target mt-5 w-full py-2.5 px-4 rounded-xl bg-white hover:bg-[#FAF8F5] border border-[#DCD3C7] text-[#1A1715] text-xs font-bold transition shadow-2xs text-center"
+            data-i18n="galleryTryStyleBtn"
+          >
+            Probar este estilo con mi bebé →
+          </button>
+        </div>
+
+        <!-- Tarjeta 3: Mateo & Misi -->
+        <div class="inspiration-card p-6 rounded-3xl bg-[#FAF8F5] border border-[#E8E2D9] flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#F4EFEA] text-[#991B1B] border border-[#E8DFD3]" data-i18n="galleryCase3Badge">
+                Apego y Familia
+              </span>
+              <span class="text-xs font-mono font-bold text-[#C28E3A]" data-i18n="galleryCase3Age">14 meses</span>
+            </div>
+            <div class="aspect-square rounded-2xl overflow-hidden border border-[#DCD3C7] shadow-xs mb-4">
+              <img src="./assets/stories/my_first_christmas_24p/layouts/page_11.jpg" alt="Mateo & Misi" class="w-full h-full object-cover" />
+            </div>
+            <h3 class="font-serif font-bold text-lg text-[#1A1715]" data-i18n="galleryCase3Title">
+              Mateo &amp; Misi (14 meses)
+            </h3>
+            <p class="mt-1 text-xs text-[#786F66] font-medium" data-i18n="galleryCase3Desc">
+              El abrazo más cálido para mamá y papá
+            </p>
+            <p class="mt-3 text-xs text-[#615A52] font-dedication italic leading-relaxed" data-i18n="galleryCase3Quote">
+              «A mis padres se les llenaron los ojos de lágrimas al ver la dedicatoria en la última página. Un regalo eterno.»
+            </p>
+          </div>
+          <button
+            type="button"
+            data-try-style="case3"
+            class="touch-target mt-5 w-full py-2.5 px-4 rounded-xl bg-white hover:bg-[#FAF8F5] border border-[#DCD3C7] text-[#1A1715] text-xs font-bold transition shadow-2xs text-center"
+            data-i18n="galleryTryStyleBtn"
+          >
+            Probar este estilo con mi bebé →
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       SECCIÓN 3: LOS 3 PILARES DEL VALOR TRANSFORMACIONAL
+       ======================================================================== -->
+  <section id="transformationalPillarsSection" class="py-16 sm:py-20 bg-[#FAF8F5] border-t border-[#E8E2D9]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mx-auto text-center">
+        <span class="text-[11px] font-bold uppercase tracking-widest text-[#C28E3A]" data-i18n="pillarsEyebrow">
+          EL VALOR DE UN RECUERDO ETERNO
+        </span>
+        <h2 class="mt-1 font-serif font-bold text-2xl sm:text-4xl text-[#1A1715]" data-i18n="pillarsTitle">
+          Más que un cuento: Un ritual que recordarán toda la vida
+        </h2>
+      </div>
+
+      <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Pilar 1: El Efecto Espejo -->
+        <div class="p-8 rounded-3xl bg-white border border-[#E8E2D9] shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="pillar-icon-box mb-5 text-[#991B1B]">
+              🪞
+            </div>
+            <h3 class="font-serif font-bold text-xl text-[#1A1715]" data-i18n="pillar1Title">
+              El Efecto Espejo (Autoestima Temprana)
+            </h3>
+            <p class="mt-2 text-xs font-bold text-[#991B1B] leading-relaxed" data-i18n="pillar1Hook">
+              No es un dibujo genérico. Es tu bebé reconociéndose como el protagonista de su propio universo.
+            </p>
+            <p class="mt-3 text-xs text-[#615A52] leading-relaxed" data-i18n="pillar1Desc">
+              Estudios en neurodesarrollo demuestran que verse a sí mismo en un cuento estimula el autoconcepto, la empatía y una relación amorosa con la lectura.
+            </p>
+          </div>
+        </div>
+
+        <!-- Pilar 2: El Ritual Bedtime sin Pantallas -->
+        <div class="p-8 rounded-3xl bg-white border border-[#E8E2D9] shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="pillar-icon-box mb-5 text-[#C28E3A]">
+              🌙
+            </div>
+            <h3 class="font-serif font-bold text-xl text-[#1A1715]" data-i18n="pillar2Title">
+              El Ritual Bedtime sin Pantallas
+            </h3>
+            <p class="mt-2 text-xs font-bold text-[#C28E3A] leading-relaxed" data-i18n="pillar2Hook">
+              Sustituye 10 minutos de pantallas por el momento más cálido del día: tu voz leyéndole un cuento donde él o ella es el héroe.
+            </p>
+            <p class="mt-3 text-xs text-[#615A52] leading-relaxed" data-i18n="pillar2Desc">
+              Luz tenue, cercanía física y una historia creada a su medida para inducir un sueño profundo, sereno y lleno de seguridad afectiva.
+            </p>
+          </div>
+        </div>
+
+        <!-- Pilar 3: Calidad de Museo -->
+        <div class="p-8 rounded-3xl bg-white border border-[#E8E2D9] shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="pillar-icon-box mb-5 text-[#991B1B]">
+              🏛️
+            </div>
+            <h3 class="font-serif font-bold text-xl text-[#1A1715]" data-i18n="pillar3Title">
+              Calidad de Museo para Guardar Décadas
+            </h3>
+            <p class="mt-2 text-xs font-bold text-[#991B1B] leading-relaxed" data-i18n="pillar3Hook">
+              Encuadernación PUR de alta resistencia, cubierta rígida mate y 24 páginas en papel Silk 170 gsm diseñadas para resistir las manitas curiosas.
+            </p>
+            <p class="mt-3 text-xs text-[#615A52] leading-relaxed" data-i18n="pillar3Desc">
+              Hecho para ser hojeado cientos de veces, manchado de amor y conservado intacto hasta que tu bebé crezca y se lo lea a sus propios hijos.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       SECCIÓN 4: PRUEBA SOCIAL EMOCIONAL (TESTIMONIOS REALES)
+       ======================================================================== -->
+  <section id="socialProofTestimonialsSection" class="py-16 sm:py-20 bg-white border-t border-[#E8E2D9]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mx-auto text-center">
+        <span class="text-[11px] font-bold uppercase tracking-widest text-[#C28E3A]" data-i18n="testimonialsEyebrow">
+          PALABRAS DE FAMILIAS REALES
+        </span>
+        <h2 class="mt-1 font-serif font-bold text-2xl sm:text-4xl text-[#1A1715]" data-i18n="testimonialsTitle">
+          Momentos que se quedan en el corazón
+        </h2>
+      </div>
+
+      <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Testimonio 1 -->
+        <div class="p-7 rounded-3xl bg-[#FAF8F5] border border-[#E8E2D9] shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="text-amber-500 text-sm mb-3">★★★★★</div>
+            <p class="text-xs sm:text-sm text-[#38322E] font-dedication italic leading-relaxed" data-i18n="testimonial1Text">
+              «A mi esposo se le salieron las lágrimas al leer la dedicatoria en la cena de Nochebuena. Liam tiene 11 meses y no suelta la página donde sale Roxy ladrando.»
+            </p>
+          </div>
+          <div class="mt-5 pt-4 border-t border-[#E8E2D9] flex items-center justify-between">
+            <span class="text-xs font-bold text-[#1A1715]" data-i18n="testimonial1Author">Valentina R. · Miami, FL · Edición en Pasta Dura</span>
+            <span class="text-[10px] font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200" data-i18n="verifiedPurchaseBadge">Compra Verificada</span>
+          </div>
+        </div>
+
+        <!-- Testimonio 2 -->
+        <div class="p-7 rounded-3xl bg-[#FAF8F5] border border-[#E8E2D9] shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="text-amber-500 text-sm mb-3">★★★★★</div>
+            <p class="text-xs sm:text-sm text-[#38322E] font-dedication italic leading-relaxed" data-i18n="testimonial2Text">
+              «Es la primera vez que veo un libro personalizado que realmente parece un cuento de hadas de cine. La calidad de la pasta dura es insuperable y el parecido con mi hija es asombroso.»
+            </p>
+          </div>
+          <div class="mt-5 pt-4 border-t border-[#E8E2D9] flex items-center justify-between">
+            <span class="text-xs font-bold text-[#1A1715]" data-i18n="testimonial2Author">Andrés M. · Bogotá, Colombia · Edición en Pasta Dura</span>
+            <span class="text-[10px] font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200" data-i18n="verifiedPurchaseBadge">Compra Verificada</span>
+          </div>
+        </div>
+
+        <!-- Testimonio 3 -->
+        <div class="p-7 rounded-3xl bg-[#FAF8F5] border border-[#E8E2D9] shadow-xs flex flex-col justify-between">
+          <div>
+            <div class="text-amber-500 text-sm mb-3">★★★★★</div>
+            <p class="text-xs sm:text-sm text-[#38322E] font-dedication italic leading-relaxed" data-i18n="testimonial3Text">
+              «Buscaba un regalo que no fuera otro juguete de plástico que termina olvidado en un rincón. Este cuento es una joya familiar que guardaremos toda la vida.»
+            </p>
+          </div>
+          <div class="mt-5 pt-4 border-t border-[#E8E2D9] flex items-center justify-between">
+            <span class="text-xs font-bold text-[#1A1715]" data-i18n="testimonial3Author">Elena S. · Madrid, España · Edición en Pasta Dura</span>
+            <span class="text-[10px] font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200" data-i18n="verifiedPurchaseBadge">Compra Verificada</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       SECCIÓN DE FORMATOS DE EDICIÓN DE COLECCIÓN (PASO 5 / OFERTA COMERCIAL)
+       ======================================================================== -->
+  <section id="wizardStep5Card" class="py-16 bg-white border-t border-[#E8E2D9]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl mx-auto text-center">
+        <span class="text-[11px] font-bold uppercase tracking-widest text-[#C28E3A]" data-i18n="step5Eyebrow">Acabados de Colección</span>
+        <h2 class="mt-1 font-serif font-bold text-2xl sm:text-4xl text-[#1A1715]" data-i18n="step5Title">
+          Elige el Acabado de tu Edición de Colección (24 Páginas)
+        </h2>
+        <p class="mt-2 text-xs sm:text-sm text-[#615A52]" data-i18n="step5Desc">
+          Edición de Colección de 24 páginas: 8 escenas principales ilustradas a doble página + dedicatoria familiar y cápsula de recuerdos del primer año.
+        </p>
+      </div>
+
+      <!-- 3 Acabados de Colección -->
+      <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- 1. Edición Digital -->
+        <div
+          data-product-tier="digital"
+          class="p-6 rounded-3xl border border-[#E8E2D9] bg-[#FAF8F5]/50 hover:bg-white cursor-pointer transition flex flex-col justify-between"
+        >
+          <div>
+            <span class="inline-block px-3 py-1 rounded-full text-[10px] font-bold bg-white text-[#786F66] border border-[#E8E2D9]" data-i18n="tierBadgeInstant">
+              Entrega Inmediata
+            </span>
+            <h3 class="mt-3 font-serif font-bold text-lg text-[#1A1715]" data-i18n="tierDigitalTitle">
+              Edición Digital Completa (PDF de Alta Definición)
+            </h3>
+            <p class="mt-2 text-xs text-[#615A52] leading-relaxed" data-i18n="tierDigitalDesc">
+              Entrega instantánea para leer juntos en iPad, tabletas o imprimir en casa.
+            </p>
+            <ul class="mt-4 space-y-1.5 text-[11px] text-[#615A52]">
+              <li class="flex items-center gap-1.5"><span class="text-emerald-700 font-bold">✓</span> <span data-i18n="tierDigitalF1">24 páginas (8 escenas + dedicatoria y cápsula de recuerdos)</span></li>
+              <li class="flex items-center gap-1.5"><span class="text-emerald-700 font-bold">✓</span> <span data-i18n="tierDigitalF2">Archivo PDF de alta definición para iPad/móvil</span></li>
+              <li class="flex items-center gap-1.5"><span class="text-emerald-700 font-bold">✓</span> <span data-i18n="tierDigitalF3">Entrega digital instantánea al correo</span></li>
+            </ul>
+          </div>
+          <div class="mt-6 pt-4 border-t border-[#E8E2D9] flex items-baseline justify-between">
+            <span id="tierCardPrice_digital" class="font-bold text-lg text-[#1A1715]">$9.99 USD</span>
+            <span class="text-xs text-[#786F66]" data-i18n="tierDigitalTag">Lectura Digital</span>
+          </div>
+        </div>
+
+        <!-- 2. Edición Pasta Blanda -->
+        <div
+          data-product-tier="softcover"
+          class="p-6 rounded-3xl border border-[#E8E2D9] bg-[#FAF8F5]/50 hover:bg-white cursor-pointer transition flex flex-col justify-between"
+        >
+          <div>
+            <span class="inline-block px-3 py-1 rounded-full text-[10px] font-bold bg-[#F4EFEA] text-[#38322E] border border-[#DCD3C7]" data-i18n="tierBadgePopular">
+              Gran Elección
+            </span>
+            <h3 class="mt-3 font-serif font-bold text-lg text-[#1A1715]" data-i18n="tierSoftcoverTitle">
+              Edición Impresa en Pasta Blanda (+ Digital Gratis)
+            </h3>
+            <p class="mt-2 text-xs text-[#615A52] leading-relaxed" data-i18n="tierSoftcoverDesc">
+              24 páginas en papel artístico Silk 170 gsm con cubierta laminada mate sedosa (+ Edición Digital incluida).
+            </p>
+            <ul class="mt-4 space-y-1.5 text-[11px] text-[#615A52]">
+              <li class="flex items-center gap-1.5"><span class="text-emerald-700 font-bold">✓</span> <span data-i18n="tierSoftcoverF1">Formato físico cuadrado 8×8" (200×200 mm)</span></li>
+              <li class="flex items-center gap-1.5"><span class="text-emerald-700 font-bold">✓</span> <span data-i18n="tierSoftcoverF2">24 páginas en papel Silk 170 gsm de colores vibrantes</span></li>
+              <li class="flex items-center gap-1.5"><span class="text-emerald-700 font-bold">✓</span> <span data-i18n="tierSoftcoverF3">Cubierta flexible con tacto sedoso mate</span></li>
+              <li class="flex items-center gap-1.5"><span class="text-emerald-700 font-bold">✓</span> <span data-i18n="tierSoftcoverF4">Edición digital HD incluida gratis</span></li>
+            </ul>
+          </div>
+          <div class="mt-6 pt-4 border-t border-[#E8E2D9] flex items-baseline justify-between">
+            <span id="tierCardPrice_softcover" class="font-bold text-lg text-[#1A1715]">$34.99 USD</span>
+            <span class="text-xs text-[#786F66]" data-i18n="tierSoftcoverTag">Impreso + Digital</span>
+          </div>
+        </div>
+
+        <!-- 3. Edición de Lujo en Tapa Dura (Keepsake) -->
+        <div
+          id="productTierCard_hardcover"
+          data-product-tier="hardcover"
+          class="relative p-6 rounded-3xl border-2 border-[#991B1B] bg-rose-50/20 ring-4 ring-[#991B1B]/10 cursor-pointer transition flex flex-col justify-between"
+        >
+          <div>
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="inline-block px-3 py-1 rounded-full text-[10px] font-bold bg-[#991B1B] text-white" data-i18n="tierBadgeStar">
+                ★ Edición de Colección
+              </span>
+              <span id="hardcoverChristmasBadge" class="hidden px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#C28E3A] text-white shadow-xs" data-i18n="hardcoverChosenBadge">
+                ★ Edición de Colección
+              </span>
+            </div>
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-900 border border-amber-300 shadow-2xs mt-3" data-i18n="hardcoverHolidayBadge">
+              ✨ Edición de Colección · Producción local rápida (3 a 5 días hábiles estimados)
+            </div>
+            <h3 class="mt-3 font-serif font-bold text-lg text-[#1A1715]" data-i18n="tierHardcoverTitle">
+              Edición de Lujo en Tapa Dura (+ Digital Gratis)
+            </h3>
+            <p class="mt-2 text-xs text-[#615A52] leading-relaxed" data-i18n="tierHardcoverDesc">
+              24 páginas en papel Silk 170 gsm con encuadernación PUR de alta resistencia y cubierta rígida mate (+ Edición Digital incluida).
+            </p>
+            <ul class="mt-4 space-y-1.5 text-[11px] text-[#4A433D] font-medium">
+              <li class="flex items-center gap-1.5"><span class="text-[#991B1B] font-bold">✓</span> <span data-i18n="tierHardcoverF1">Tapa dura rígida de colección con acabado mate resistente a huellas</span></li>
+              <li class="flex items-center gap-1.5"><span class="text-[#991B1B] font-bold">✓</span> <span data-i18n="tierHardcoverF2">24 páginas en papel artístico grueso (170 gsm Silk) de alta durabilidad</span></li>
+              <li class="flex items-center gap-1.5"><span class="text-[#991B1B] font-bold">✓</span> <span data-i18n="tierHardcoverF3">Incluye 8 escenas ilustradas + álbum de recuerdos y huellas del bebé</span></li>
+              <li class="flex items-center gap-1.5"><span class="text-[#991B1B] font-bold">✓</span> <span data-i18n="tierHardcoverF4">Edición digital HD inmediata incluida gratis para leer en cualquier pantalla</span></li>
+              <li class="flex items-center gap-1.5"><span class="text-[#991B1B] font-bold">✓</span> <span data-i18n="tierHardcoverF5">Empaque protector reforzado para llegar impecable a tu puerta</span></li>
+            </ul>
+          </div>
+          <div class="mt-6 pt-4 border-t border-rose-200/60 flex flex-wrap items-baseline justify-between gap-2">
+            <div class="flex items-baseline gap-2">
+              <span class="text-xs text-[#8C8277] line-through font-semibold">$49.99 USD</span>
+              <span id="tierCardPrice_hardcover" class="font-bold text-xl text-[#991B1B]">$39.99 USD</span>
+            </div>
+            <span class="text-xs font-semibold text-[#991B1B]" data-i18n="tierHardcoverTag">Edición de Colección</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Aviso cálido de piloto geográfico (visible cuando el país != US) -->
+      <div
+        id="pilotCountryNotice"
+        class="hidden mt-6 max-w-3xl mx-auto p-4 rounded-2xl warm-editorial-note text-xs leading-relaxed flex items-start gap-3 shadow-2xs"
+      >
+        <span class="text-base shrink-0">🎁</span>
+        <p id="pilotCountryNoticeText" data-i18n="pilotCountryNotice">
+          Tu edición digital está lista al instante. Además, recibirás una oferta especial en tu correo para recibir tu edición de colección impresa en tu país.
+        </p>
+      </div>
+
+      <!-- Módulo Unificado de Compra y Desglose Transparente (uxpeak) -->
+      <div class="mt-10 max-w-2xl mx-auto bg-[#FAF8F5] rounded-3xl p-6 sm:p-7 border border-[#E8E2D9] shadow-sm">
+        <h3 class="font-serif font-bold text-lg text-[#1A1715] mb-3 pb-2.5 border-b border-[#E8E2D9] flex items-center justify-between gap-2">
+          <span data-i18n="summaryTitle">Resumen de tu Edición de Colección</span>
+          <span class="text-xs font-sans text-emerald-800 font-bold bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200 whitespace-nowrap" data-i18n="summaryProtectedBadge">
+            ✓ Compra Protegida
+          </span>
+        </h3>
+
+        <!-- Desglose Matemático Transparente -->
+        <div class="space-y-3 text-xs">
+          <!-- Selector de País de Envío (Regla Piloto Geográfico) -->
+          <div class="flex items-center justify-between gap-3 pb-2.5 border-b border-[#E8E2D9]">
+            <label for="summaryCountrySelect" class="font-semibold text-[#1A1715]" data-i18n="pilotCountryLabel">País de envío</label>
+            <select id="summaryCountrySelect" class="px-3 py-1.5 rounded-xl border border-[#DCD3C7] bg-white text-xs font-semibold text-[#1A1715] focus:outline-none focus:border-[#991B1B]">
+              <option value="US">🇺🇸 Estados Unidos (US)</option>
+              <option value="CO">🇨🇴 Colombia (CO)</option>
+              <option value="PE">🇵🇪 Perú (PE)</option>
+              <option value="ES">🇪🇸 España (ES)</option>
+              <option value="MX">🇲🇽 México (MX)</option>
+              <option value="CA">🇨🇦 Canadá (CA)</option>
+              <option value="GB">🇬🇧 Reino Unido (GB)</option>
+            </select>
+          </div>
+
+          <!-- Selector Escalonado de Cantidad (1, 2, 3, 4+ libros) -->
+          <div class="pb-2.5 border-b border-[#E8E2D9] space-y-2">
+            <div class="flex items-center justify-between text-[#615A52]">
+              <span class="font-semibold text-[#1A1715]" data-i18n="summaryQuantityLabel">Cantidad de ejemplares</span>
+              <div class="inline-flex items-center gap-2 bg-white border border-[#DCD3C7] rounded-xl px-1.5 py-1 shadow-2xs">
+                <button type="button" id="qtyDecreaseBtn" aria-label="Decrease quantity" class="w-7 h-7 rounded-lg bg-[#FAF8F5] hover:bg-[#EFE8DE] text-[#1A1715] font-bold text-sm transition flex items-center justify-center disabled:opacity-40">−</button>
+                <span id="orderQuantityVal" class="w-6 text-center font-bold text-sm text-[#1A1715]">1</span>
+                <button type="button" id="qtyIncreaseBtn" aria-label="Increase quantity" class="w-7 h-7 rounded-lg bg-[#FAF8F5] hover:bg-[#EFE8DE] text-[#1A1715] font-bold text-sm transition flex items-center justify-center disabled:opacity-40">+</button>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              <button type="button" data-qty-preset="1" class="qty-tier-pill active rounded-xl px-2.5 py-2 text-center">
+                <span class="block text-[11px] font-bold" data-i18n="qty1Label">1 libro</span>
+              </button>
+              <button type="button" data-qty-preset="2" class="qty-tier-pill rounded-xl px-2.5 py-2 text-center">
+                <span class="block text-[11px] font-bold" data-i18n="qty2Label">2 libros · -10%</span>
+                <span class="block text-[9px] text-[#786F66]" data-i18n="qty2Hint">Ideal para abuelos</span>
+              </button>
+              <button type="button" data-qty-preset="3" class="qty-tier-pill rounded-xl px-2.5 py-2 text-center">
+                <span class="block text-[11px] font-bold" data-i18n="qty3Label">3 libros · -15%</span>
+                <span class="block text-[9px] text-[#786F66]" data-i18n="qty3Hint">Paquete familiar</span>
+              </button>
+              <button type="button" data-qty-preset="4" class="qty-tier-pill rounded-xl px-2.5 py-2 text-center">
+                <span class="block text-[11px] font-bold" data-i18n="qty4Label">4+ libros · -20%</span>
+              </button>
+            </div>
+            <p id="qtyDigitalLockedNote" class="hidden text-[11px] text-[#786F66] italic" data-i18n="qtyDigitalLockedNote">
+              La Edición Digital es de descarga unitaria.
+            </p>
+          </div>
+
+          <div class="flex justify-between text-[#615A52]">
+            <span data-i18n="summaryProductBase">Edición seleccionada</span>
+            <span id="summaryBasePriceVal" class="font-semibold text-[#1A1715]">$39.99 USD</span>
+          </div>
+          <div id="summaryVolumeDiscountRow" class="hidden flex justify-between text-emerald-800 font-semibold">
+            <span id="summaryVolumeDiscountLabel">Descuento por cantidad (10%)</span>
+            <span id="summaryVolumeDiscountVal">-$0.00 USD</span>
+          </div>
+          <div class="hidden flex justify-between text-[#615A52]" aria-hidden="true">
+            <span data-i18n="summaryPetUpsell">Personalización del compañero</span>
+            <span id="summaryPetUpsellVal" class="font-semibold text-[#1A1715]">$0.00 USD</span>
+          </div>
+          <div id="summaryDiscountRow" class="hidden flex justify-between text-emerald-800 font-semibold">
+            <span data-i18n="summaryDiscount">Descuento familiar</span>
+            <span id="summaryDiscountVal">-$0.00 USD</span>
+          </div>
+          <div class="flex justify-between text-[#615A52]">
+            <span id="summaryShippingLabel">Envío con seguimiento a domicilio</span>
+            <span id="summaryShippingVal" class="font-semibold text-[#1A1715]">$4.50 USD</span>
+          </div>
+          <div class="pt-3 border-t border-[#E8E2D9] flex justify-between items-baseline text-sm font-bold text-[#1A1715]">
+            <span data-i18n="summaryTotal">Total a pagar</span>
+            <span id="summaryTotalVal" class="font-serif text-xl font-bold text-[#991B1B]">$44.49 USD</span>
+          </div>
+        </div>
+
+        <!-- Cupón Familiar Colapsable y Discreto -->
+        <details class="group mt-4 pt-3 border-t border-[#E8E2D9] text-xs">
+          <summary class="cursor-pointer font-bold text-[#991B1B] hover:text-[#7F1D1D] flex items-center justify-between list-none">
+            <span class="flex items-center gap-1.5">
+              <span>🏷️</span> <span data-i18n="couponToggleLabel">¿Tienes un código de descuento familiar?</span>
+            </span>
+            <span class="text-xs text-[#786F66] group-open:rotate-180 transition">▼</span>
+          </summary>
+          <div class="mt-3">
+            <div class="flex gap-2">
+              <input
+                id="couponCodeInput"
+                type="text"
+                data-i18n-placeholder="couponPlaceholder"
+                placeholder="Ej. NAVIDAD20 o WAITLIST10"
+                class="touch-target flex-1 px-4 py-2 rounded-2xl border border-[#DCD3C7] text-xs font-bold uppercase focus:outline-none focus:border-[#991B1B] bg-white"
+              />
+              <button
+                type="button"
+                id="applyCouponBtn"
+                class="touch-target px-4 py-2 rounded-2xl bg-[#1A1715] hover:bg-[#332D28] text-white font-bold text-xs transition whitespace-nowrap"
+                data-i18n="couponApplyBtn"
+              >
+                Aplicar
+              </button>
+            </div>
+            <p id="couponFeedbackMsg" class="hidden mt-2 text-xs font-semibold"></p>
+          </div>
+        </details>
+
+        <!-- Botón Principal de Compra con Precio Dinámico Integrado -->
+        <div class="mt-6">
+          <button
+            type="button"
+            id="openCheckoutModalBtn"
+            class="touch-target w-full py-4 rounded-2xl bg-[#991B1B] hover:bg-[#7F1D1D] text-white font-serif font-bold text-base shadow-md transition duration-300 flex items-center justify-center gap-2"
+            data-i18n="openCheckoutBtn"
+          >
+            💳 Proceder al Pago Seguro · $44.49 USD
+          </button>
+
+          <!-- Sellos de Confianza y Garantía CRO -->
+          <div class="mt-4 pt-3 border-t border-[#E8E2D9] flex flex-wrap items-center justify-center gap-3.5 text-[11px] text-[#786F66]">
+            <span class="inline-flex items-center gap-1 font-medium" data-i18n="trustSslBadge">🔒 Cifrado SSL 256-bit</span>
+            <span aria-hidden="true">·</span>
+            <span class="inline-flex items-center gap-1 font-medium" data-i18n="trustGuaranteeBadge">🛡️ Garantía 100% de Sonrisas</span>
+            <span aria-hidden="true">·</span>
+            <span class="inline-flex items-center gap-1 font-medium" data-i18n="trustShippingBadge">📦 Envío Puerta a Puerta</span>
+          </div>
+          <div class="mt-2 text-center text-[10px] text-[#9E9791]" data-i18n="trustPaymentsLine">
+            Pagos protegidos procesados con Stripe · Visa · Mastercard · Apple Pay · Google Pay
+          </div>
+          <div class="mt-3 p-3 rounded-2xl warm-editorial-note text-[11px] leading-relaxed space-y-1">
+            <p data-i18n="warmShippingNote">Preparamos cada ejemplar cerca de tu destino para entregas ágiles y sin trámites complicados. El envío se calcula según tu dirección antes de confirmar.</p>
+            <p data-i18n="warmCustomsNote">Si tu país o dirección aplica impuestos locales o cargos de importación fuera de rutas cubiertas, se gestionan según la normativa local.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       CATÁLOGO SECUNDARIO / PRÓXIMAS EDICIONES (ESTILO GALERÍA DE ARTE)
+       ======================================================================== -->
+  <section id="secondaryCatalogSection" class="py-16 bg-[#FAF8F5] border-t border-[#E8E2D9]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl">
+        <span class="text-[11px] font-bold uppercase tracking-widest text-[#C28E3A]" data-i18n="catalogEyebrow">
+          PRÓXIMAS EDICIONES · FONDO EDITORIAL ROXYTALES
+        </span>
+        <h2 class="mt-1 font-serif font-bold text-2xl sm:text-4xl text-[#1A1715]" data-i18n="catalogTitle">
+          Nuevas aventuras y etapas del crecimiento
+        </h2>
+        <p class="mt-2 text-xs sm:text-sm text-[#615A52]" data-i18n="catalogSubtitle">
+          Descubre las próximas historias para cada hito de la infancia o reserva tu acceso exclusivo con un 10% de beneficio.
+        </p>
+      </div>
+
+      <div id="secondaryCatalogGrid" class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       FOOTER EDITORIAL DE ALTA GAMA
+       ======================================================================== -->
+  <footer class="bg-[#141211] text-[#9E9791] pt-12 pb-24 border-t border-amber-950/20 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3.5">
+        <div class="w-10 h-10 rounded-full bg-amber-50 p-0.5 border border-amber-300/60 shadow-sm overflow-hidden shrink-0">
+          <img src="./PublishingImprint/PublishingImprint.jpg" alt="RoxyTales Official Seal" class="w-full h-full object-contain" />
+        </div>
+        <div>
+          <span class="font-serif text-sm font-semibold tracking-wide text-[#FAF8F5]">RoxyTales Publishing Imprint</span>
+          <p class="text-[11px] text-[#857E78] mt-0.5" data-i18n="footerTagline">Cuentos ilustrados de colección para la primera infancia · Encuadernación artesanal de lujo</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-4 text-[11px]">
+        <span class="text-[#857E78]" data-i18n="footerCopyright">© 2026 RoxyTales. Todos los derechos reservados.</span>
+        <span class="text-amber-900/50">·</span>
+        <button type="button" onclick="window.roxyTalesApp?.toggleRole()" class="text-[#857E78] hover:text-amber-400 transition underline underline-offset-4 decoration-amber-900/30" data-i18n="footerAdminLink">
+          Acceso Editorial
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       MODALES REFINADOS (MUESTRA DIGITAL, LISTA DE ESPERA, CHECKOUT, ADMIN)
+       ======================================================================== -->
+  
+  <!-- MODAL 1: MUESTRA DIGITAL / ACCESO COMPLETO -->
+  <div
+    id="leadGateModal"
+    class="hidden fixed inset-0 z-50 bg-[#141211]/70 backdrop-blur-xs flex items-center justify-center p-4"
+    role="dialog"
+    aria-modal="true"
+  >
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl border border-[#E8E2D9] relative">
+      <button
+        type="button"
+        data-close-modal="leadGateModal"
+        class="absolute top-4 right-4 w-9 h-9 rounded-full bg-[#FAF8F5] hover:bg-[#E8E2D9] flex items-center justify-center text-[#615A52] font-bold"
+      >
+        ✕
+      </button>
+
+      <div class="w-12 h-12 rounded-2xl bg-rose-50 text-[#991B1B] flex items-center justify-center text-2xl mb-3 border border-rose-100">
+        📖
+      </div>
+
+      <h3 class="font-serif font-bold text-xl text-[#1A1715]" data-i18n="leadGateModalTitle">
+        Despliega la Vista Previa de 8 Escenas
+      </h3>
+      <p id="leadGateModalDynamicDesc" class="mt-2 text-xs text-[#615A52] leading-relaxed" data-i18n="leadGateModalDesc">
+        Para disfrutar el cuento completo y recibir tu muestra digital gratuita, ingresa tus datos familiares.
+      </p>
+
+      <form id="leadGateModalForm" class="mt-5 space-y-3.5">
+        <div>
+          <label for="modalLeadNameInput" class="block text-xs font-bold text-[#38322E] mb-1" data-i18n="buyerNameLabel">
+            Tu nombre completo
+          </label>
+          <input
+            id="modalLeadNameInput"
+            type="text"
+            required
+            class="touch-target w-full px-4 py-2 rounded-2xl border border-[#DCD3C7] text-sm focus:outline-none focus:border-[#991B1B]"
+          />
+        </div>
+
+        <div>
+          <label for="modalLeadEmailInput" class="block text-xs font-bold text-[#38322E] mb-1" data-i18n="buyerEmailLabel">
+            Tu correo electrónico
+          </label>
+          <input
+            id="modalLeadEmailInput"
+            type="email"
+            required
+            class="touch-target w-full px-4 py-2 rounded-2xl border border-[#DCD3C7] text-sm focus:outline-none focus:border-[#991B1B]"
+          />
+        </div>
+
+        <p id="leadGateModalDynamicNote" class="text-[11px] text-[#786F66]" data-i18n="leadGatePrivacyNote">
+          Privacidad protegida. Guardaremos tu diseño para que nunca pierdas el cuento de tu bebé.
+        </p>
+
+        <button
+          type="submit"
+          class="touch-target w-full py-3.5 rounded-2xl bg-[#991B1B] hover:bg-[#7F1D1D] text-white font-serif font-bold text-sm shadow-md transition"
+          data-i18n="leadGateModalSubmit"
+        >
+          ✨ Desplegar Historia Completa y Muestra
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 2: LISTA DE ESPERA (PRÓXIMAS COLECCIONES) -->
+  <div
+    id="waitlistModal"
+    class="hidden fixed inset-0 z-50 bg-[#141211]/70 backdrop-blur-xs flex items-center justify-center p-4"
+    role="dialog"
+    aria-modal="true"
+  >
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl border border-[#E8E2D9] relative">
+      <button
+        type="button"
+        data-close-modal="waitlistModal"
+        class="absolute top-4 right-4 w-9 h-9 rounded-full bg-[#FAF8F5] hover:bg-[#E8E2D9] flex items-center justify-center text-[#615A52] font-bold"
+      >
+        ✕
+      </button>
+
+      <div id="waitlistFormContainer">
+        <div class="w-12 h-12 rounded-2xl bg-amber-50 text-[#C28E3A] flex items-center justify-center text-2xl mb-3 border border-amber-200">
+          🔔
+        </div>
+
+        <h3 class="font-serif font-bold text-xl text-[#1A1715]" data-i18n="waitlistModalTitle">
+          Acceso Exclusivo + 10% de Beneficio
+        </h3>
+        <p class="mt-2 text-xs text-[#615A52] leading-relaxed" data-i18n="waitlistModalLegend">
+          Estamos ilustrando esta edición con esmero. Déjanos tu correo para avisarte en cuanto abra la preventa.
+        </p>
+
+        <div class="mt-3 p-3 rounded-2xl bg-[#FAF8F5] border border-[#E8E2D9] text-xs">
+          <span class="text-[#786F66]" data-i18n="waitlistProductLabel">Colección de interés:</span>
+          <span id="waitlistModalProductTitle" class="block font-bold text-[#1A1715] mt-0.5"></span>
+        </div>
+
+        <form id="waitlistModalForm" class="mt-4 space-y-3">
+          <div>
+            <label for="waitlistEmailInput" class="block text-xs font-bold text-[#38322E] mb-1">Correo electrónico</label>
+            <input
+              id="waitlistEmailInput"
+              type="email"
+              required
+              data-i18n-placeholder="waitlistEmailPlaceholder"
+              placeholder="tu@familia.com"
+              class="touch-target w-full px-4 py-2 rounded-2xl border border-[#DCD3C7] text-sm focus:outline-none focus:border-[#991B1B]"
+            />
+          </div>
+
+          <div>
+            <label for="waitlistNameInput" class="block text-xs font-bold text-[#38322E] mb-1">Nombre (opcional)</label>
+            <input
+              id="waitlistNameInput"
+              type="text"
+              data-i18n-placeholder="waitlistNamePlaceholder"
+              placeholder="Tu nombre"
+              class="touch-target w-full px-4 py-2 rounded-2xl border border-[#DCD3C7] text-sm focus:outline-none focus:border-[#991B1B]"
+            />
+          </div>
+
+          <button
+            type="submit"
+            class="touch-target w-full py-3.5 rounded-2xl bg-[#C28E3A] hover:bg-[#D4A359] text-[#1A1715] font-bold text-xs shadow-md transition"
+            data-i18n="waitlistSubmitBtn"
+          >
+            Reservar mi beneficio del 10%
+          </button>
+        </form>
+      </div>
+
+      <div id="waitlistSuccessContainer" class="hidden text-center py-4 space-y-3">
+        <div class="text-4xl">🎉</div>
+        <h3 class="font-serif font-bold text-xl text-[#1A1715]" data-i18n="waitlistSuccessTitle">¡Reserva confirmada!</h3>
+        <p class="text-xs text-[#615A52] leading-relaxed" data-i18n="waitlistSuccessMsg">
+          Te hemos reservado un lugar prioritario. Tu código de beneficio del 10% es: WAITLIST10.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: PAGO SEGURO Y DIRECCIÓN DE ENTREGA -->
+  <div
+    id="stripeCheckoutModal"
+    class="hidden fixed inset-0 z-50 bg-[#141211]/75 backdrop-blur-xs flex items-start sm:items-center justify-center p-3 sm:p-4 overflow-y-auto overscroll-contain"
+    role="dialog"
+    aria-modal="true"
+  >
+    <div class="bg-white rounded-3xl max-w-xl w-full p-5 sm:p-7 shadow-2xl border border-[#E8E2D9] relative my-auto max-h-[92vh] overflow-y-auto overscroll-contain">
+      <!-- Vista 1: Formulario de Entrega + Resumen -->
+      <div id="checkoutFormView">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <span class="w-3 h-3 rounded-full bg-[#10B981] shrink-0"></span>
+            <h3 class="font-serif font-bold text-lg sm:text-xl text-[#1A1715] leading-snug" data-i18n="checkoutModalTitle">
+              Finalizar Pedido Seguro · RoxyTales Publishing
+            </h3>
+          </div>
+          <button
+            type="button"
+            data-close-modal="stripeCheckoutModal"
+            aria-label="Cerrar"
+            class="shrink-0 w-9 h-9 rounded-full bg-[#FAF8F5] hover:bg-[#E8E2D9] flex items-center justify-center text-[#615A52] font-bold shadow-xs"
+          >
+            ✕
+          </button>
+        </div>
+
+        <form id="stripeCheckoutForm" class="mt-5 space-y-4">
+          <div id="checkoutDigitalDeliveryNotice" class="hidden p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs font-semibold text-emerald-900" data-i18n="checkoutDigitalDeliveryNotice">
+            📧 Entrega digital instantánea a tu correo electrónico (no requiere dirección física).
+          </div>
+
+          <div id="checkoutShippingFieldsWrapper" class="space-y-4">
+            <div class="text-xs font-bold uppercase tracking-wider text-[#786F66]" data-i18n="checkoutShippingSection">
+              Dirección de entrega a domicilio
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              <div class="sm:col-span-2">
+                <label class="block text-xs font-bold text-[#38322E] mb-1" data-i18n="shippingStreetLabel">Calle y número de casa / apartamento</label>
+                <input id="checkoutStreetInput" type="text" required value="" placeholder="Ej. 742 Evergreen Terrace" class="touch-target w-full px-4 py-2 rounded-2xl border border-[#DCD3C7] text-sm focus:outline-none focus:border-[#991B1B]" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-[#38322E] mb-1" data-i18n="shippingCityLabel">Ciudad</label>
+                <input id="checkoutCityInput" type="text" required value="" placeholder="Ej. Miami" class="touch-target w-full px-4 py-2 rounded-2xl border border-[#DCD3C7] text-sm focus:outline-none focus:border-[#991B1B]" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-[#38322E] mb-1" data-i18n="shippingStateLabel">Estado / Departamento / Provincia</label>
+                <input id="checkoutStateInput" type="text" required value="" placeholder="Ej. FL" class="touch-target w-full px-4 py-2 rounded-2xl border border-[#DCD3C7] text-sm focus:outline-none focus:border-[#991B1B]" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-[#38322E] mb-1" data-i18n="shippingCountryLabel">País de entrega</label>
+                <select id="checkoutCountrySelect" class="touch-target w-full px-4 py-2 rounded-2xl border border-[#DCD3C7] bg-white text-sm font-semibold focus:outline-none focus:border-[#991B1B]">
+                  <option value="US">Estados Unidos</option>
+                  <option value="CO">Colombia</option>
+                  <option value="PE">Perú</option>
+                  <option value="ES">España</option>
+                  <option value="MX">México</option>
+                  <option value="CA">Canadá</option>
+                  <option value="GB">Reino Unido</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-[#38322E] mb-1" data-i18n="shippingPostalLabel">Código Postal</label>
+                <input id="checkoutPostalInput" type="text" required value="" placeholder="Ej. 33101" class="touch-target w-full px-4 py-2 rounded-2xl border border-[#DCD3C7] text-sm focus:outline-none focus:border-[#991B1B]" />
+              </div>
+            </div>
+
+            <div class="p-3.5 rounded-2xl bg-[#FAF8F5] border border-[#E8E2D9] flex items-center justify-between text-xs text-[#4A433D]">
+              <span>🚚 Seguimiento asegurado:</span>
+              <span id="checkoutGelatoHubBadge" class="font-bold text-[#1A1715]">Entrega estimada en 3 a 5 días hábiles</span>
+            </div>
+          </div>
+
+          <!-- Desglose transparente -->
+          <div class="p-4 rounded-2xl bg-[#FAF8F5] border border-[#E8E2D9] space-y-2 text-xs">
+            <div class="flex justify-between font-bold text-[#1A1715] pb-2 border-b border-[#E8E2D9]">
+              <span>Edición personalizada</span>
+              <span id="checkoutChildAndPetLabel" class="text-[#991B1B]">Liam &amp; Roxy</span>
+            </div>
+            <div class="flex items-center justify-between text-[#615A52] py-1">
+              <span class="font-semibold text-[#1A1715]" data-i18n="summaryQuantityLabel">Cantidad de ejemplares</span>
+              <div class="inline-flex items-center gap-2 bg-white border border-[#DCD3C7] rounded-xl px-1.5 py-0.5 shadow-2xs">
+                <button type="button" id="checkoutQtyDecreaseBtn" aria-label="Decrease quantity" class="w-6 h-6 rounded-lg bg-[#FAF8F5] hover:bg-[#EFE8DE] text-[#1A1715] font-bold text-xs transition flex items-center justify-center">−</button>
+                <span id="checkoutQuantityVal" class="w-5 text-center font-bold text-xs text-[#1A1715]">1</span>
+                <button type="button" id="checkoutQtyIncreaseBtn" aria-label="Increase quantity" class="w-6 h-6 rounded-lg bg-[#FAF8F5] hover:bg-[#EFE8DE] text-[#1A1715] font-bold text-xs transition flex items-center justify-center">+</button>
+              </div>
+            </div>
+            <div class="flex justify-between text-[#615A52]">
+              <span data-i18n="summaryProductBase">Edición seleccionada</span>
+              <span id="checkoutBasePrice" class="font-semibold text-[#1A1715]">$39.99 USD</span>
+            </div>
+            <div id="checkoutVolumeDiscountRow" class="hidden flex justify-between text-emerald-800 font-semibold">
+              <span id="checkoutVolumeDiscountLabel">Descuento por cantidad (10%)</span>
+              <span id="checkoutVolumeDiscountVal">-$0.00 USD</span>
+            </div>
+            <div class="hidden flex justify-between text-[#615A52]" aria-hidden="true">
+              <span data-i18n="summaryPetUpsell">Personalización del compañero</span>
+              <span id="checkoutPetUpsellPrice" class="font-semibold text-[#1A1715]">+$0.00 USD</span>
+            </div>
+            <div class="flex justify-between text-emerald-800 font-semibold">
+              <span data-i18n="summaryDiscount">Descuento familiar</span>
+              <span id="checkoutDiscountAmount">-$0.00 USD</span>
+            </div>
+            <div class="flex justify-between text-[#615A52]">
+              <span data-i18n="summaryShipping">Envío con seguimiento</span>
+              <span id="checkoutShippingFee" class="font-semibold text-[#1A1715]">$4.50 USD</span>
+            </div>
+            <div class="pt-2 border-t border-[#E8E2D9] flex justify-between items-baseline text-sm font-bold text-[#1A1715]">
+              <span data-i18n="summaryTotal">Total a pagar</span>
+              <span id="checkoutTotalAmount" class="font-serif text-lg text-[#991B1B]">$44.49 USD</span>
+            </div>
+          </div>
+
+          <div class="p-3.5 rounded-2xl border border-[#DCD3C7] bg-white flex items-center justify-between text-xs">
+            <span class="font-medium text-[#615A52]" data-i18n="stripeCardLabel">Pago de prueba simulado (sin cobro real)</span>
+            <span class="font-bold text-[#1A1715]">🧪 Modo Prueba · •••• 4242</span>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-2.5 pt-1">
+            <button
+              type="button"
+              data-close-modal="stripeCheckoutModal"
+              class="touch-target sm:w-1/3 py-3.5 px-4 rounded-2xl bg-[#FAF8F5] hover:bg-[#EFE8DE] border border-[#DCD3C7] text-[#38322E] font-bold text-sm transition"
+              data-i18n="checkoutCancelBtn"
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              id="confirmStripePayBtn"
+              class="touch-target sm:flex-1 py-4 rounded-2xl bg-[#991B1B] hover:bg-[#7F1D1D] text-white font-serif font-bold text-base shadow-md transition"
+            >
+              Confirmar Pedido Seguro ($44.49 USD)
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Vista 2: Confirmación Exitosa -->
+      <div id="checkoutSuccessView" class="hidden space-y-4">
+        <div class="p-5 rounded-3xl bg-emerald-50 border border-emerald-200 flex items-start gap-3.5">
+          <span class="text-3xl">🎉</span>
+          <div>
+            <h3 class="font-serif font-bold text-xl text-emerald-950" data-i18n="orderSuccessTitle">
+              ¡Tu libro personalizado ha sido encargado con éxito!
+            </h3>
+            <p class="mt-1.5 text-xs text-emerald-800 leading-relaxed" data-i18n="orderSuccessDesc">
+              Hemos recibido todos los detalles de tu cuento. Tu edición entrará a encuadernación artesanal y te notificaremos con el número de seguimiento de tu entrega.
+            </p>
+          </div>
+        </div>
+
+        <div id="checkoutOrderTrackingCard" class="hidden p-4 rounded-2xl bg-[#FAF8F5] border border-[#E8E2D9] space-y-2.5">
+          <div class="flex items-center justify-between gap-2">
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-[#786F66]">Referencia de pedido</span>
+              <p id="checkoutTrackingRef" class="font-mono font-bold text-sm text-[#1A1715]">—</p>
+            </div>
+            <span id="checkoutTrackingStatusBadge" class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800">Confirmado</span>
+          </div>
+          <p id="checkoutTrackingVaultStatus" class="text-xs text-[#615A52]">Preparando edición de colección en alta resolución...</p>
+          <div class="flex flex-wrap items-center gap-2 pt-1">
+            <a id="checkoutTrackingPortalLink" href="#" target="_blank" rel="noopener noreferrer" class="hidden px-3 py-1.5 rounded-xl bg-white border border-[#DCD3C7] text-xs font-bold text-[#991B1B] hover:bg-[#FAF8F5] transition">
+              🔗 Ver seguimiento oficial del pedido
+            </a>
+            <button type="button" id="refreshOrderTrackingBtn" class="px-3 py-1.5 rounded-xl bg-white border border-[#DCD3C7] text-xs font-bold text-[#1A1715] hover:bg-[#FAF8F5] transition">
+              ↻ Actualizar estado
+            </button>
+          </div>
+        </div>
+
+        <pre id="checkoutSuccessPayloadPreview" class="hidden p-4 rounded-2xl bg-slate-950 text-emerald-300 font-mono text-[11px] max-h-48 overflow-y-auto"></pre>
+
+        <div class="flex flex-col sm:flex-row gap-3 pt-2">
+          <button
+            type="button"
+            id="downloadFinalCleanPdfBtn"
+            class="touch-target flex-1 py-3.5 px-5 rounded-2xl bg-[#991B1B] hover:bg-[#7F1D1D] text-white font-serif font-bold text-sm shadow-md transition"
+            data-i18n="downloadCleanPdfBtn"
+          >
+            📖 Descargar mi libro digital completo
+          </button>
+          <button
+            type="button"
+            id="inspectOdooPayloadFromCheckoutBtn"
+            class="touch-target py-3.5 px-4 rounded-2xl bg-[#FAF8F5] hover:bg-white border border-[#DCD3C7] text-[#1A1715] font-bold text-xs transition"
+            data-i18n="viewOdooPayloadBtn"
+          >
+            📋 Registro de Auditoría Editorial
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 4: PANEL DE CONTROL EDITORIAL (ADMIN MODE) -->
+  <div
+    id="adminPanelModal"
+    class="hidden fixed inset-0 z-50 bg-[#141211]/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 overflow-y-auto"
+    role="dialog"
+    aria-modal="true"
+  >
+    <div class="bg-white rounded-3xl max-w-5xl w-full max-h-[92vh] flex flex-col shadow-2xl border border-[#E8E2D9] overflow-hidden">
+      <!-- Cabecera del Panel Editorial -->
+      <div class="p-5 sm:p-6 bg-[#1A1715] text-white flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-[#991B1B] text-white font-mono font-bold text-[10px]">EDITORIAL CONTROL</span>
+            <span class="text-xs text-[#9E9791]">Ctrl + Shift + A</span>
+          </div>
+          <h2 class="mt-1 font-serif font-bold text-xl sm:text-2xl" data-i18n="adminHeaderTitle">
+            Panel de Control Editorial RoxyTales
+          </h2>
+          <p class="text-xs text-[#9E9791]" data-i18n="adminHeaderSubtitle">
+            Gestión de cupones, precios base, tarifas de entrega y auditoría de pedidos familiares.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          id="closeAdminPanelBtn"
+          class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition"
+          data-i18n="adminCloseBtn"
+        >
+          Volver a la tienda
+        </button>
+      </div>
+
+      <!-- Pestañas del Panel Editorial -->
+      <div class="flex items-center gap-2 px-6 pt-3 border-b border-[#E8E2D9] bg-[#FAF8F5] overflow-x-auto">
+        <button type="button" data-admin-tab="pricing" class="px-4 py-2.5 text-xs font-bold border-b-2 border-[#991B1B] text-[#991B1B]" data-i18n="adminTabPricing">Precios y Envíos</button>
+        <button type="button" data-admin-tab="coupons" class="px-4 py-2.5 text-xs font-bold border-b-2 border-transparent text-[#615A52] hover:text-[#1A1715]" data-i18n="adminTabCoupons">Cupones Familiares</button>
+        <button type="button" data-admin-tab="leads" class="px-4 py-2.5 text-xs font-bold border-b-2 border-transparent text-[#615A52] hover:text-[#1A1715]" data-i18n="adminTabLeads">Auditoría de Lectores</button>
+        <button type="button" data-admin-tab="payload" class="px-4 py-2.5 text-xs font-bold border-b-2 border-transparent text-[#615A52] hover:text-[#1A1715]" data-i18n="adminTabPayload">Registro de Órdenes</button>
+      </div>
+
+      <!-- Contenido de las pestañas -->
+      <div class="p-6 overflow-y-auto flex-1 text-xs">
+        <!-- Tab 1: Precios -->
+        <div id="adminTabContent_pricing" class="space-y-6">
+          <form id="adminPricingForm" class="space-y-5">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div class="p-4 rounded-2xl bg-[#FAF8F5] border border-[#E8E2D9]">
+                <label class="block font-bold text-[#1A1715] mb-1">Digital Edition ($ USD)</label>
+                <input name="tier_digital" type="number" step="0.5" required class="w-full px-3 py-2 rounded-xl border border-[#DCD3C7] text-sm font-bold" />
+              </div>
+              <div class="p-4 rounded-2xl bg-[#FAF8F5] border border-[#E8E2D9]">
+                <label class="block font-bold text-[#1A1715] mb-1">Softcover Printed ($ USD)</label>
+                <input name="tier_softcover" type="number" step="0.5" required class="w-full px-3 py-2 rounded-xl border border-[#DCD3C7] text-sm font-bold" />
+              </div>
+              <div class="p-4 rounded-2xl bg-[#FAF8F5] border border-[#E8E2D9]">
+                <label class="block font-bold text-[#1A1715] mb-1">Hardcover Keepsake ($ USD)</label>
+                <input name="tier_hardcover" type="number" step="0.5" required class="w-full px-3 py-2 rounded-xl border border-[#DCD3C7] text-sm font-bold" />
+              </div>
+            </div>
+
+            <div class="flex gap-3">
+              <button type="submit" class="px-5 py-2.5 rounded-xl bg-[#991B1B] text-white font-bold text-xs" data-i18n="adminSavePricingBtn">Guardar Cambios</button>
+              <button type="button" id="adminResetPricingBtn" class="px-4 py-2.5 rounded-xl bg-[#FAF8F5] border border-[#DCD3C7] text-[#1A1715] font-bold text-xs" data-i18n="adminResetPricingBtn">Restaurar Valores</button>
+            </div>
+          </form>
+
+          <div>
+            <h4 class="font-bold text-[#1A1715] mb-2">Matriz de Tarifas de Entrega</h4>
+            <div class="border border-[#E8E2D9] rounded-2xl overflow-hidden">
+              <table class="w-full text-left">
+                <thead class="bg-[#FAF8F5] text-[#786F66]">
+                  <tr>
+                    <th class="p-3">País</th>
+                    <th class="p-3">Tarifa Base ($ USD)</th>
+                    <th class="p-3">Centro de Impresión</th>
+                    <th class="p-3">Tiempo Estimado</th>
+                  </tr>
+                </thead>
+                <tbody id="adminGelatoMatrixBody" class="divide-y divide-[#E8E2D9]"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 2: Cupones -->
+        <div id="adminTabContent_coupons" class="hidden space-y-6">
+          <form id="adminCouponForm" class="p-4 rounded-2xl bg-[#FAF8F5] border border-[#E8E2D9] space-y-3">
+            <h4 class="font-bold text-[#1A1715]">Nuevo Cupón</h4>
+            <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+              <div>
+                <label class="block text-[#786F66] mb-1">Código</label>
+                <input id="adminCouponCode" required class="w-full px-3 py-2 rounded-xl border border-[#DCD3C7] uppercase font-bold" />
+              </div>
+              <div>
+                <label class="block text-[#786F66] mb-1">Tipo</label>
+                <select id="adminCouponType" class="w-full px-3 py-2 rounded-xl border border-[#DCD3C7]">
+                  <option value="percent">Porcentaje (%)</option>
+                  <option value="fixed">Monto Fijo ($ USD)</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-[#786F66] mb-1">Valor</label>
+                <input id="adminCouponValue" type="number" step="1" required class="w-full px-3 py-2 rounded-xl border border-[#DCD3C7] font-bold" />
+              </div>
+              <div class="flex items-end">
+                <button type="submit" class="w-full py-2.5 rounded-xl bg-[#1A1715] text-white font-bold">+ Crear Cupón</button>
+              </div>
+            </div>
+          </form>
+
+          <div id="adminCouponsList" class="space-y-2"></div>
+        </div>
+
+        <!-- Tab 3: Leads -->
+        <div id="adminTabContent_leads" class="hidden space-y-6">
+          <div class="flex items-center justify-between">
+            <h4 class="font-bold text-[#1A1715]">Embudo de Lectores en localStorage</h4>
+            <button type="button" id="adminClearLeadsBtn" class="px-3 py-1.5 rounded-lg bg-rose-50 text-rose-700 font-bold border border-rose-200">Limpiar registros</button>
+          </div>
+          <div class="border border-[#E8E2D9] rounded-2xl overflow-hidden">
+            <table class="w-full text-left">
+              <thead class="bg-[#FAF8F5] text-[#786F66]">
+                <tr>
+                  <th class="p-3">Fecha</th>
+                  <th class="p-3">Comprador</th>
+                  <th class="p-3">Bebé</th>
+                  <th class="p-3">Evento</th>
+                  <th class="p-3">Formato</th>
+                </tr>
+              </thead>
+              <tbody id="adminLeadsTableBody" class="divide-y divide-[#E8E2D9]"></tbody>
+            </table>
+          </div>
+
+          <h4 class="font-bold text-[#1A1715] mt-6">Registros de Lista de Espera</h4>
+          <div class="border border-[#E8E2D9] rounded-2xl overflow-hidden">
+            <table class="w-full text-left">
+              <thead class="bg-[#FAF8F5] text-[#786F66]">
+                <tr>
+                  <th class="p-3">Fecha</th>
+                  <th class="p-3">Correo</th>
+                  <th class="p-3">Nombre</th>
+                  <th class="p-3">Colección</th>
+                </tr>
+              </thead>
+              <tbody id="adminWaitlistTableBody" class="divide-y divide-[#E8E2D9]"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Tab 4: Payload -->
+        <div id="adminTabContent_payload" class="hidden space-y-4">
+          <div class="flex items-center justify-between">
+            <span id="adminPayloadModeBadge" class="font-bold text-[#1A1715]">Última orden registrada</span>
+            <div class="flex gap-2">
+              <button type="button" id="adminPayloadModeToggle" class="px-3 py-1.5 rounded-xl bg-[#FAF8F5] border border-[#DCD3C7] font-bold">Alternar vista</button>
+              <button type="button" id="adminCopyJsonBtn" class="px-3 py-1.5 rounded-xl bg-[#1A1715] text-white font-bold">Copiar JSON</button>
+              <button type="button" id="adminDownloadJsonBtn" class="px-3 py-1.5 rounded-xl bg-[#991B1B] text-white font-bold">Descargar</button>
+            </div>
+          </div>
+          <pre id="adminOdooPayloadCode" class="p-5 rounded-2xl bg-slate-950 text-emerald-300 font-mono text-xs overflow-x-auto max-h-[50vh]"></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Barra Flotante de Conversión Sutil (Sticky Conversion Bar) -->
+  <div id="stickyConversionBar" class="sticky-conversion-bar py-2.5 sm:py-3 px-3 sm:px-6">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-2.5 sm:gap-4">
+      <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+        <img src="./PublishingImprint/PublishingImprint.jpg" alt="RoxyTales Seal" class="w-9 h-9 rounded-full bg-white p-0.5 border border-[#D4A359] hidden sm:block shrink-0" />
+        <div class="min-w-0">
+          <span id="stickyBarDynamicTitle" class="font-serif font-bold text-xs sm:text-base text-[#1A1715] block truncate" data-i18n="stickyBarTitle">
+            Crea el tesoro ilustrado de tu bebé en 60 segundos
+          </span>
+          <span class="text-[11px] text-[#786F66] hidden sm:block" data-i18n="stickyBarSubtitle">
+            ✨ Edición especial de colección · Entrega a domicilio asegurada
+          </span>
+        </div>
+      </div>
+      <button
+        type="button"
+        id="stickyBarCtaBtn"
+        class="touch-target px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-2xl bg-[#991B1B] hover:bg-[#7F1D1D] text-white font-serif font-bold text-xs sm:text-sm shadow-md transition whitespace-nowrap shrink-0"
+        data-i18n="stickyBarBtn"
+      >
+        💳 Finalizar Compra · $44.49 USD
+      </button>
+    </div>
+  </div>
+
+  <!-- Contenedor invisible para impresión PDF -->
+  <div id="printableBookContainer" aria-hidden="true"></div>
+
+  <!-- Notificaciones Toast -->
+  <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm"></div>
+
+  <!-- Controlador Universal -->
+  <script src="./roxytales.bundle.js"></script>
+</body>
+</html>
