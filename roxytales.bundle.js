@@ -5927,6 +5927,11 @@ class RoxyTalesApp {
   }
 
   async _requestBackendPdfGeneration(isSampleDraft = true) {
+    // Ensure uploaded baby & pet photos are persisted on backend before generating any PDF
+    if (!this.state.profileId && (this.state.babyPhotoDataUrl || this.state.petPhotoDataUrl)) {
+      await this._uploadPhotosToBackend();
+    }
+
     const isEn = this.state.language === "en";
     const relObj = this._getCurrentRelationship();
     const senderSignature = isEn ? relObj.signatureEn : relObj.signatureEs;
@@ -6782,8 +6787,7 @@ class RoxyTalesApp {
         this._renderLeadGateBanner();
         this._renderBookViewer();
         this.showToast(this.t("orderSuccessTitle"), "success");
-        // Dispara renderizado de producción + bóveda PDF segura de la orden confirmada
-        this._triggerBackgroundBatchRender([1, 3, 5, 7], "final");
+        // Genera y archiva automáticamente el PDF editorial 24p con los personajes reales
         this._syncConfirmedOrderPdfVault();
       });
     }

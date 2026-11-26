@@ -209,7 +209,7 @@ PAGE_LAYOUTS: Dict[int, Dict[str, Any]] = {
 def compute_cache_key(page_number: int, baby_hash: str, pet_hash: str, model_id: str, resolution: str) -> str:
     """Calculates SHA-256 hash across template, baby hash, pet hash, model, resolution, and scene mode."""
     mode_tag = f"{'test_ref' if ROXY_TEST_PREVIEW_MODE else 'live_ref'}_{ROXY_SCENE_MODE}"
-    raw = f"v5_24p|{mode_tag}|page:{page_number}|baby:{baby_hash}|pet:{pet_hash}|model:{model_id}|res:{resolution}"
+    raw = f"v6_24p|{mode_tag}|page:{page_number}|baby:{baby_hash}|pet:{pet_hash}|model:{model_id}|res:{resolution}"
     return hashlib.sha256(raw.encode("utf-8")).hexdigest()
 
 
@@ -330,19 +330,23 @@ class RoxyImageEngine:
         Generates (or retrieves from SHA-256 cache) an isolated transparent 3D sprite
         for ONLY the baby OR ONLY a custom pet. Never mixes both in the same GenAI call.
         """
-        # Zero-cost Test/Preview Mode: ALWAYS use baby_test_render_1K.jpg sprite + roxy_official_sprite.png
-        if kind == "baby" and (ROXY_TEST_PREVIEW_MODE or photo_hash == "default_baby" or photo_path is None):
+        # Use default baby sprite ONLY when no user photo was uploaded or default fixture hash is requested
+        if kind == "baby" and (
+            photo_path is None
+            or not photo_path.exists()
+            or photo_hash in ("default_baby", "default_baby_sprite")
+        ):
             if TEST_BABY_SPRITE.exists():
                 return TEST_BABY_SPRITE, "test-fixture-baby-1k"
             if TEST_BABY_RENDER_SOURCE.exists():
                 extract_transparent_sprite(Image.open(TEST_BABY_RENDER_SOURCE), TEST_BABY_SPRITE, tol=16.0)
                 return TEST_BABY_SPRITE, "test-fixture-baby-1k"
 
-        # Official original Roxy: NEVER invoke GenAI, ALWAYS return the exact original Roxy sprite!
+        # Official original Roxy: NEVER invoke GenAI, ONLY when using default Roxy or no custom pet photo uploaded
         if kind == "pet" and (
-            ROXY_TEST_PREVIEW_MODE
+            photo_path is None
+            or not photo_path.exists()
             or photo_hash in ("default_roxy", "official_roxy_shih_tzu")
-            or photo_path is None
             or (photo_path.resolve() == DEFAULT_ROXY_IMAGE.resolve())
         ):
             if OFFICIAL_ROXY_SPRITE.exists():
@@ -355,11 +359,14 @@ class RoxyImageEngine:
         if not photo_path or not photo_path.exists():
             return None, "no-photo"
 
+        use_genai_sprite = self._client is not None and (
+            not ROXY_TEST_PREVIEW_MODE or ROXY_SCENE_MODE == "natural_ai"
+        )
         sprite_key = compute_sprite_cache_key(kind, photo_hash, model_name)
         cached = get_cached_render(sprite_key)
         if cached:
             is_fallback = cached["model_used"] == "roxy-artistic-composite-engine"
-            if not (is_fallback and self._client is not None):
+            if not (is_fallback and use_genai_sprite):
                 cached_path = Path(cached["output_path"])
                 if cached_path.exists():
                     logger.info(f"Sprite cache hit ({kind}): {cached_path.name} [{cached['model_used']}]")
@@ -369,7 +376,7 @@ class RoxyImageEngine:
         model_used = "roxy-artistic-composite-engine"
 
         # 1. Try Google GenAI SDK to generate ONLY this single isolated character
-        if self._client is not None:
+        if use_genai_sprite:
             try:
                 generated_img = self._call_genai_single_character(
                     kind=kind,
@@ -451,7 +458,8 @@ class RoxyImageEngine:
         ring_fill = (153, 27, 27, 240) if is_pet else (212, 163, 89, 240)
         draw.ellipse((2, 2, size + 2 * ring - 2, size + 2 * ring - 2), fill=ring_fill, outline=(245, 229, 201, 255), width=4)
 
-        raw = ImageOps.fit(Image.open(photo_path).convert("RGB"), (size, size), Image.Resampling.LANCZOS)
+        opened_raw = ImageOps.exif_transpose(Image.open(photo_path))
+        raw = ImageOps.fit(opened_raw.convert("RGB"), (size, size), Image.Resampling.LANCZOS)
         mask = Image.new("L", (size, size), 0)
         ImageDraw.Draw(mask).ellipse((4, 4, size - 4, size - 4), fill=255)
         mask = mask.filter(ImageFilter.GaussianBlur(1.2))
@@ -581,10 +589,15 @@ class RoxyImageEngine:
             age=child_age,
             model_name=model_name,
         )
-        # For natural AI reference, prefer the crisp original studio portrait if in test mode
+        # For natural AI reference, prefer crisp test studio portrait ONLY when no user baby photo was uploaded
+        is_default_baby = (
+            baby_photo_path is None
+            or not baby_photo_path.exists()
+            or baby_photo_hash in ("default_baby", "default_baby_sprite")
+        )
         baby_ref_for_ai = (
             TEST_BABY_RENDER_SOURCE
-            if (ROXY_TEST_PREVIEW_MODE and TEST_BABY_RENDER_SOURCE.exists())
+            if (is_default_baby and TEST_BABY_RENDER_SOURCE.exists())
             else baby_sprite_path
         )
 

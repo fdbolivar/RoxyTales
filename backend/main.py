@@ -342,34 +342,33 @@ def _run_pdf_generation_job(job_id: str, req: PDFGenerateRequest):
     try:
         update_pdf_job(job_id, status="processing", progress=25)
 
-        # Ensure ALL 9 illustrated scene spreads (1, 3, 5, 7, 9, 11, 13, 15, 17) are composed with the cached
-        # 3D Baby Sprite + Original Roxy (reuses cached sprites at $0.00 extra API cost)
+        # Ensure ALL 9 illustrated scene spreads (1, 3, 5, 7, 9, 11, 13, 15, 17) are ALWAYS composed
+        # with the user's uploaded photos (when profile exists) or default character sprites.
         composed_pages: Dict[int, str] = {int(k): v for k, v in (req.rendered_pages or {}).items()}
         profile = get_profile(req.profile_id) if req.profile_id and req.profile_id != "anonymous" else None
-        if profile or req.is_sample:
-            baby_path = Path(profile["baby_photo_path"]) if (profile and profile.get("baby_photo_path")) else None
-            baby_hash = (profile.get("baby_photo_hash") if profile else None) or "default_baby_sprite"
-            pet_path = Path(profile["pet_photo_path"]) if (profile and profile.get("pet_photo_path")) else None
-            pet_hash = (profile.get("pet_photo_hash") if profile else None) or "default_roxy"
-            tier = "preview" if req.is_sample else "final"
-            child_age_months = parse_age_months(req.age_label)
-            for p_num in (1, 3, 5, 7, 9, 11, 13, 15, 17):
-                if p_num not in composed_pages:
-                    out_url, _, _ = image_engine.render_page(
-                        page_number=p_num,
-                        baby_photo_path=baby_path,
-                        baby_photo_hash=baby_hash,
-                        pet_photo_path=pet_path,
-                        pet_photo_hash=pet_hash,
-                        child_name=req.child_name,
-                        child_age=child_age_months,
-                        pet_name=req.pet_name,
-                        tier=tier,
-                        # Restrict live GenAI image synthesis strictly to Page 1 cover when uncached;
-                        # remaining scene spreads reuse local high-res sprite compositing ($0.00 API cost).
-                        force_fast_composite=bool(p_num > 1 or req.is_sample or not profile),
-                    )
-                    composed_pages[p_num] = out_url
+        baby_path = Path(profile["baby_photo_path"]) if (profile and profile.get("baby_photo_path")) else None
+        baby_hash = (profile.get("baby_photo_hash") if profile else None) or "default_baby_sprite"
+        pet_path = Path(profile["pet_photo_path"]) if (profile and profile.get("pet_photo_path")) else None
+        pet_hash = (profile.get("pet_photo_hash") if profile else None) or "default_roxy"
+        tier = "preview" if req.is_sample else "final"
+        child_age_months = parse_age_months(req.age_label)
+        for p_num in (1, 3, 5, 7, 9, 11, 13, 15, 17):
+            if p_num not in composed_pages:
+                out_url, _, _ = image_engine.render_page(
+                    page_number=p_num,
+                    baby_photo_path=baby_path,
+                    baby_photo_hash=baby_hash,
+                    pet_photo_path=pet_path,
+                    pet_photo_hash=pet_hash,
+                    child_name=req.child_name,
+                    child_age=child_age_months,
+                    pet_name=req.pet_name,
+                    tier=tier,
+                    # Restrict live GenAI image synthesis strictly to Page 1 cover when uncached;
+                    # remaining scene spreads reuse local high-res sprite compositing ($0.00 API cost).
+                    force_fast_composite=bool(p_num > 1 or req.is_sample or not profile),
+                )
+                composed_pages[p_num] = out_url
 
         update_pdf_job(job_id, status="processing", progress=55)
         result = pdf_layout_engine.generate_book_pdfs(
